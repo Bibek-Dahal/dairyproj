@@ -1,0 +1,39 @@
+
+{%extends "../base.html"%}
+{%block title%}fatrate list{%endblock title%}
+{%block table_data%}
+<table class="table">
+    <a class="float-end nav-link " href="{%url  'dairyapp:create-fat'%}">add fat rates</a>
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Fat Rate</th>
+            <th scope="col">Dairy</th>
+            <th scope="col">Actions</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {%for fatrate in fatrates%}
+        <tr>
+            <th scope="row">{{fatrate.id}}</th>
+            <td>{{fatrate.fat_rate}}</td>
+            <td>{{fatrate.dairy}}</td>
+            <td>
+                <form action="{% url 'dairyapp:edit_fat' fatrate.id%}" class="d-inline">
+                    <button type="submit" class="btn btn-danger">edit</button>
+                </form>
+                <form action="{% url 'dairyapp:delete_fat' fatrate.id%}" method="POST" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">delete</button>
+                </form>
+            </td>
+
+        </tr>
+        {%endfor%}
+
+
+
+    </tbody>
+</table>
+{%endblock%}

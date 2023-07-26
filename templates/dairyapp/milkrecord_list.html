@@ -1,0 +1,46 @@
+{%extends "../base.html"%}
+{%block title%}list milk record{%endblock title%}
+{%block table_data%}
+<table class="table">
+    
+    <a class="float-end nav-link " href="{%url  'dairyapp:create_milk_record' dairy %}">Add Milk Record</a>
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Dairy</th>
+            <th scope="col">User</th>
+            <th scope="col">Shift</th>
+            <th scope="col">Milk Weight</th>
+            <th scope="col">Milk Fat</th>
+            <th scope="col">Date</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {%for milkrecord in milkrecords%}
+        <tr>
+            <th scope="row">{{milkrecord.id}}</th>
+            <td>{{milkrecord.dairy}}</td>
+            <td>{{milkrecord.user}}</td>
+            <td>{{milkrecord.shift}}</td>
+            <td>{{milkrecord.milk_weight}}</td>
+            <td>{{milkrecord.milk_fat}}</td>
+            <td>{{milkrecord.date}}</td>
+            <td>
+                <form action="{% url 'dairyapp:update_milk_record' id=milkrecord.id dairy=dairy%}" class="d-inline">
+                    <button type="submit" class="btn btn-danger">edit</button>
+                </form>
+                <form action="#" method="POST" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">delete</button>
+                </form>
+            </td>
+
+        </tr>
+        {%endfor%}
+
+
+
+    </tbody>
+</table>
+{%endblock%}
