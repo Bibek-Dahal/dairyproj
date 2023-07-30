@@ -56,7 +56,7 @@ class LocationForm(forms.ModelForm):
 class CreateMilkRecordForm(forms.ModelForm):
     user = forms.ModelChoiceField(queryset=None,widget=forms.Select(attrs={"class":"form-select"}))
     dairy = forms.ModelChoiceField(queryset=None,initial=2,widget=forms.Select(attrs={"class":"form-select"}))
-    date = forms.DateField(initial=datetime.date.today,widget=DateInput(attrs={"class":"form-control"}))
+    date = forms.DateField(initial=datetime.date.today,widget=DateInput(attrs={"class":"form-control","placeholder":"dd-mm-yyyy"}))
     # input_formats=['%Y%m%d']
     class Meta:
         model = MilkRecord

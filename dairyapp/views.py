@@ -5,7 +5,7 @@ from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views import View
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect,HttpResponseForbidden
 from dairyapp.models import *
 from .forms import *
 from django.views.generic import ListView
@@ -15,8 +15,16 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+import datetime
+from django.db.models import Avg,Sum
+from .decorators import verified_dairy_user
+from django.core.exceptions import PermissionDenied
+
+
 
 @method_decorator(login_required(login_url='account_login'),name="dispatch")
+@method_decorator(verified_dairy_user,name="dispatch")
 class HomeView(View):
     def get(self,request):
         auser = get_user_model()
@@ -49,6 +57,7 @@ class HomeView(View):
             return render(request,"dairyapp/index.html")
 
 @method_decorator(login_required(login_url='account_login'),name="dispatch")
+@method_decorator(verified_dairy_user,name="dispatch")
 class FatListView(ListView):
     model = FatRate
     paginate_by = 100
@@ -64,6 +73,7 @@ class EditFatView(UpdateView):
     pass
 
 @method_decorator(login_required(login_url='account_login'),name="dispatch")
+@method_decorator(verified_dairy_user,name="dispatch")
 class CreateFatView(View):
     def get(self,request,*args,**kwargs):
         print(self.request.user)
@@ -83,6 +93,7 @@ class CreateFatView(View):
 
 
 @method_decorator(login_required(login_url='account_login'),name="dispatch")
+@method_decorator(verified_dairy_user,name="dispatch")
 class UpdateFatView(View):
     def get(self,request,*args,**kwargs):
 
@@ -116,6 +127,7 @@ class UpdateFatView(View):
             #     raise Http404("Poll does not exist")
             
 @method_decorator(login_required(login_url='account_login'),name="dispatch")
+@method_decorator(verified_dairy_user,name="dispatch")
 class DeleteFatRate(DeleteView):
     print("delete view called")
     model = FatRate
@@ -128,6 +140,7 @@ class DeleteFatRate(DeleteView):
        
 #Dairy views
 @method_decorator(login_required(login_url='account_login'),name="dispatch")
+@method_decorator(verified_dairy_user,name="dispatch")
 class CreateDairyView(CreateView):
      model = Dairy
      form_class = CreateDairyForm
@@ -151,13 +164,17 @@ class UpadteDairyView(UpdateView):
     
 
 @method_decorator(login_required(login_url='account_login'),name="dispatch")
+@method_decorator(verified_dairy_user,name="dispatch")
 class ListMilkReports(ListView):
     model = MilkRecord
     context_object_name = "milkrecords"
+    # paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
         context['dairy'] = self.kwargs['dairy']
+        dairy = get_object_or_404(Dairy,name=self.kwargs['dairy'],user=self.request.user)
+        context['members'] = dairy.members.all()
         return context
     
     def get_queryset(self):
@@ -168,20 +185,28 @@ class ListMilkReports(ListView):
 
 
 @method_decorator(login_required(login_url='account_login'),name="dispatch")
+@method_decorator(verified_dairy_user,name="dispatch")
 class CreateMilkRercord(View):
     def get(self,request,*args,**kwargs):
             """
             user can add milk record if he is verified user
             """
             try:
-                dairy = Dairy.verObs.get(name=kwargs['dairy'],user=self.request.user)
+                print(kwargs['dairy'])
+                dairy = Dairy.objects.get(name=kwargs['dairy'],user=self.request.user)
+                print("dairy",dairy)
                 # dairy =get_object_or_404(Dairy,name=kwargs['dairy'],user=self.request.user)
-                print(dairy.members.all())
-                form = CreateMilkRecordForm(dairy)
-                
-                return render(request,'dairyapp/milkrecord_create.html',{'form':form})
-            except:
-                 raise Http404("Dairy Not Found")
+                if dairy.is_verified:
+                    print(dairy.members.all())
+                    form = CreateMilkRecordForm(dairy)
+                    
+                    return render(request,'dairyapp/milkrecord_create.html',{'form':form})
+                else:
+                    print('inside else')
+                    #  raise HttpResponseForbidden("Sorry,")
+                    raise PermissionDenied()
+            except Exception as e:
+                 raise e
         
         
     def post(self,request,*args,**kwargs):
@@ -200,6 +225,7 @@ class CreateMilkRercord(View):
 
     
 @method_decorator(login_required(login_url='account_login'),name="dispatch")
+@method_decorator(verified_dairy_user,name="dispatch")
 class UpdateMilkRercord(View):
     def get(self,request,*args,**kwargs):
             """
@@ -238,3 +264,121 @@ class UpdateMilkRercord(View):
             return render(request,'dairyapp/milkrecord_edit.html',{'form':form})
 
     
+   
+@method_decorator(login_required(login_url='account_login'),name="dispatch")
+@method_decorator(verified_dairy_user,name="dispatch")
+class ListMemberMilkRecord(ListView):
+    model = MilkRecord
+    context_object_name = "milkrecords"
+    template_name = "dairyapp/member_milkrecord_list.html"
+
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        context['dairy'] = self.kwargs['dairy']
+        context['id'] = self.kwargs['id']
+        context['start_date'] = self.request.GET.get('start_date')
+        context['end_date'] = self.request.GET.get('end_date')
+        context['shift'] = self.request.GET.get('shift')
+        context['date'] = self.request.GET.get('date')
+        context['count'] = self.kwargs['count']
+        context['total_milk_wieght'] = self.kwargs['total_milk_wieght']
+        context['avg_fat'] = round(self.kwargs['avg_fat'],3)
+        context['total_price'] = self.kwargs['total_price']
+        dairy = get_object_or_404(Dairy,name=self.kwargs['dairy'],user=self.request.user)
+        context['members'] = dairy.members.all()
+        
+
+        
+        return context
+    
+        
+    
+    
+    
+    def get_queryset(self):
+        request = self.request
+        print("date",self.request.GET.get('date'))
+        print("name",self.request.GET.get('name'))
+        shift = request.GET.get('shift')
+        date = request.GET.get('date')
+        start_date = request.GET.get('start_date')
+        print("start_date",start_date)
+        end_date = request.GET.get('end_date')
+        print("end_date",end_date)
+        
+        # return super().get_queryset()
+        user = get_object_or_404(User,id=self.kwargs['id'])
+        dairy = get_object_or_404(Dairy,name=self.kwargs['dairy'])
+        queryset  = MilkRecord.objects.all()
+        filters = Q(dairy=dairy,dairy__user=self.request.user,user=user)
+        # return MilkRecord.objects.filter(dairy=dairy,dairy__user=self.request.user,user=user)
+    
+        if shift:
+              print("inside shift--------------")
+              print("shift",shift)
+              filters &= Q(shift=shift)
+
+        if date:
+             filters &= Q(date=date)
+
+        if start_date and end_date:
+            queryset = queryset.filter(date__gte=start_date, date__lte=end_date)
+        elif start_date:
+            filters &= Q(date__gte=start_date)
+        elif end_date:
+            filters &= Q(date__lte=end_date)
+            
+             
+
+        # if start_date and end_date:
+        #      filters &= Q(date>=start_date and date<=end_date)
+        
+
+
+        def seedMilkRecord():
+             print("inside milk record")
+             import random
+             i = 1
+             for i in range(1,31):
+                  date = f"2023-07-{i}"
+                  if i<9:
+                       date = f"2023-07-0{i}"
+                  MilkRecord.objects.create(
+                       dairy = dairy,
+                       user = user,
+                       shift = "night",
+                       milk_weight = random.randint(1,20),
+                       milk_fat = random.randint(1,6),
+                       date = date
+                  )
+        # seedMilkRecord()
+        qs = queryset.filter(filters)
+        count = qs.count()
+        print("count",count)
+        self.kwargs['count'] = count
+        self.kwargs['total_milk_wieght'] = 0
+        self.kwargs['avg_fat'] = 0
+        self.kwargs['total_price'] = 0
+
+        if shift:
+            
+            milk_wg = qs.aggregate(Sum("milk_weight")).get('milk_weight__sum')
+            avg_fat = qs.aggregate(Avg("milk_fat")).get('milk_fat__avg')
+            self.kwargs['total_milk_wieght'] = milk_wg
+            self.kwargs['avg_fat'] = avg_fat
+            print("milk_weight",milk_wg)
+            print("average_fat",avg_fat)
+            fat_rate = FatRate.objects.filter(dairy__user=self.request.user,dairy=dairy)
+
+            if fat_rate.exists():
+                print("fat_fate",fat_rate[0].fat_rate)
+                total_price = fat_rate[0].fat_rate*milk_wg*avg_fat
+                self.kwargs['total_price'] = total_price
+                # print("total price==",total_price)
+                pass
+
+
+             
+        return queryset.filter(filters)
+    
+

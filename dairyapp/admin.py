@@ -15,7 +15,7 @@ class FatRateAdmin(admin.ModelAdmin):
 
 @admin.register(MilkRecord)
 class MilkRecord(admin.ModelAdmin):
-    list_display = ["dairy","user","shift","date","created_at","updated_at"]
+    list_display = ["id","dairy","user","shift","date","created_at","updated_at"]
 
 
 @admin.register(Location)

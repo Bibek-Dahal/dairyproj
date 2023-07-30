@@ -17,5 +17,6 @@ urlpatterns = [
     path("edit-dairy/<int:pk>",views.UpadteDairyView.as_view(),name="update_dairy"),
     path("list-milk-records/<str:dairy>",views.ListMilkReports.as_view(),name="milk_record"),
     path("create-milk-records/<str:dairy>",views.CreateMilkRercord.as_view(),name="create_milk_record"),
-    path("update-milk-record/<int:id>/<str:dairy>",views.UpdateMilkRercord.as_view(),name="update_milk_record")
+    path("update-milk-record/<int:id>/<str:dairy>",views.UpdateMilkRercord.as_view(),name="update_milk_record"),
+    path("list-member-milk-record/<int:id>/<str:dairy>",views.ListMemberMilkRecord.as_view(),name="member_milk_record")
 ]

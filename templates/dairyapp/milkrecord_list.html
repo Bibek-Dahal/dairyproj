@@ -21,7 +21,7 @@
         <tr>
             <th scope="row">{{milkrecord.id}}</th>
             <td>{{milkrecord.dairy}}</td>
-            <td>{{milkrecord.user}}</td>
+            <td><a href="{% url 'dairyapp:member_milk_record' id=milkrecord.user.id dairy=milkrecord.dairy.name%}">{{milkrecord.user}}</a></td>
             <td>{{milkrecord.shift}}</td>
             <td>{{milkrecord.milk_weight}}</td>
             <td>{{milkrecord.milk_fat}}</td>
@@ -43,4 +43,10 @@
 
     </tbody>
 </table>
+
+{%for member in members%}
+    {{member.first_name}}|{{member.last_name}}|{{member.phone_number}}
+{%endfor%}
+
+
 {%endblock%}

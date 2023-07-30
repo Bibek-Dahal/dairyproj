@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'my_account',
+    'user',
     'dairyapp',
     'allauth',
     'allauth.account',
@@ -141,7 +142,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "my_account.User"
 
-STATIC_URL = "static/"
+# STATIC_URL = "static/"
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
@@ -164,12 +165,12 @@ LOGOUT_REDIRECT_URL = 'account_login'
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 ACCOUNT_FORMS = {
-    # 'add_email': 'allauth.account.forms.AddEmailForm',
+    'add_email': 'my_account.forms.MyAddEmailForm',
     'change_password': 'my_account.forms.MyPasswordChangeForm',
     # 'disconnect': 'allauth.socialaccount.forms.DisconnectForm',
     'login': 'my_account.forms.MyLoginForm',
     'reset_password': 'my_account.forms.MyPasswordResetFrom',
-    # 'reset_password_from_key': 'my_account.forms.MyPasswordResetFormKey',
+    'reset_password_from_key': 'my_account.forms.MyPasswordResetFormKey',
     'set_password': 'my_account.forms.MySetPasswordForm',
     'signup': 'my_account.forms.MyUserCreationForm',
     # 'user_token': 'allauth.account.forms.UserTokenForm',

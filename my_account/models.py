@@ -83,6 +83,7 @@ class User(AbstractBaseUser,PermissionsMixin):
     phone_number = models.IntegerField(_("phone number"),unique=True)
     is_email_verified = models.BooleanField(_("email verified"),default=False)
     address = models.CharField(_("address"),max_length=100,blank=True,null=True)
+    has_verified_dairy = models.BooleanField(default=False)
     is_staff = models.BooleanField(
         _("staff status"),
         default=False,

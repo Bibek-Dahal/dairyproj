@@ -29,7 +29,7 @@ class Dairy(models.Model):
 
 class FatRate(models.Model):
     fat_rate = models.FloatField(_("fat rate"),max_length=5)
-    dairy = models.ForeignKey(Dairy,on_delete=models.CASCADE,verbose_name=_("dairy"))
+    dairy = models.OneToOneField(Dairy,on_delete=models.CASCADE,verbose_name=_("dairy"))
     created_at = models.DateTimeField(_("created at"),auto_now_add=True)
     updated_at = models.DateTimeField(_("updated at"),auto_now=True)
 
@@ -38,7 +38,7 @@ class FatRate(models.Model):
     
 class MilkRecord(models.Model):
     shift_choices = (
-        (_("day"),_("day")),
+        (_("morning"),_("morning")),
         (_("night"),_("night"))
     )
     dairy = models.ForeignKey(Dairy,on_delete=models.CASCADE)

@@ -6,8 +6,17 @@ import re
 from my_account.models import User
 from django.core.validators import RegexValidator
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-from allauth.account.forms import SignupForm,LoginForm,ChangePasswordForm,ResetPasswordKeyForm,ResetPasswordForm,SetPasswordForm
+from allauth.account.forms import SignupForm,LoginForm,ChangePasswordForm,ResetPasswordKeyForm,ResetPasswordForm,SetPasswordForm,AddEmailForm
 from allauth.account import app_settings
+
+
+class MyAddEmailForm(AddEmailForm):
+    def __init__(self, *args, **kwargs):
+        super(MyAddEmailForm, self).__init__(*args, **kwargs)
+        
+        # self.fields['oldpassword'].widget.attrs.update({'class':'form-control'})
+        self.fields['email'].widget.attrs.update({'class':'form-control'})
+
 
 class MySetPasswordForm(SetPasswordForm):
     def __init__(self, *args, **kwargs):
