@@ -8,6 +8,7 @@ from django.core.validators import RegexValidator
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from allauth.account.forms import SignupForm,LoginForm,ChangePasswordForm,ResetPasswordKeyForm,ResetPasswordForm,SetPasswordForm,AddEmailForm
 from allauth.account import app_settings
+# from django.contrib.auth.forms import UserCreationForm
 
 
 class MyAddEmailForm(AddEmailForm):
@@ -72,7 +73,9 @@ class MyLoginForm(LoginForm):
 class MyUserCreationForm(SignupForm):
     
     email = forms.EmailField(
+        label= _("email"),
         widget=forms.TextInput(
+            
             attrs={
                 "type": "email",
                 "placeholder": _("E-mail address"),

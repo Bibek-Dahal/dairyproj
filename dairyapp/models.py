@@ -20,8 +20,8 @@ class Dairy(models.Model):
         return self.name
     
     class Meta:
-        verbose_name = "dairy"
-        verbose_name_plural = "dairies"
+        verbose_name = _("dairy")
+        verbose_name_plural = _("dairies")
 
     def get_absolute_url(self):
         return reverse('dairyapp:homepage')
@@ -41,11 +41,11 @@ class MilkRecord(models.Model):
         (_("morning"),_("morning")),
         (_("night"),_("night"))
     )
-    dairy = models.ForeignKey(Dairy,on_delete=models.CASCADE)
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
-    shift = models.CharField(max_length=10,choices=shift_choices)
-    milk_weight = models.FloatField()
-    milk_fat = models.FloatField(max_length=5)
+    dairy = models.ForeignKey(Dairy,on_delete=models.CASCADE,verbose_name=_("dairy"))
+    user = models.ForeignKey(User,on_delete=models.CASCADE,verbose_name=_("user"))
+    shift = models.CharField(_("shift"),max_length=10,choices=shift_choices)
+    milk_weight = models.FloatField(_("milk weight"))
+    milk_fat = models.FloatField(_("milk fat"),max_length=5)
     date = models.DateField(_("date"))
     created_at = models.DateTimeField(_("created at"),auto_now_add=True)
     updated_at = models.DateTimeField(_("updated at"),auto_now=True)
@@ -54,6 +54,3 @@ class MilkRecord(models.Model):
         unique_together = ["dairy", "user","shift","date"]
 
 
-class Location(models.Model):
-    location = models.CharField(max_length=10,unique=True)
-    age = models.IntegerField(unique=True)

@@ -1,6 +1,7 @@
 {% extends 'base.html'%}
+{% load i18n %}
 {% load static%}
-{%block title%}edit fat{%endblock title%}
+{%block title%}{%trans 'Edit Fat' %}{%endblock title%}
 
 {%block content%}
 
@@ -16,7 +17,7 @@
                 {% endif%}
                 <div class="row text-center">
                     <div class="col">
-                        <h2 class="text-info">Update Fat</h2>
+                        <h2 class="text-info">{%trans 'Update Fat' %}</h2>
                     </div>
                 </div>
                 {% for field in form%}
@@ -34,7 +35,7 @@
                 {%endfor%}
                 <div class="row justify-content-center">
                     <div class="d-grid gap-2 my-2 col-12 col-sm-8 mx-auto">
-                        <button class="btn btn-primary" type="submit">Submit</button>
+                        <button class="btn btn-primary" type="submit">{%trans 'Submit' %}</button>
                     </div>
 
                 </div>

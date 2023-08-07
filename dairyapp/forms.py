@@ -15,7 +15,7 @@ class CreateFatForm(forms.ModelForm):
     def __init__(self,request,*args, **kwargs):
         super().__init__(*args, **kwargs)
         print("------------")
-        self.fields["dairy"].queryset = Dairy.verObs.filter(user=request.user)
+        self.fields["dairy"].queryset = Dairy.objects.filter(user=request.user)
     class Meta:
         model = FatRate
         fields = ["fat_rate","dairy"]
@@ -47,16 +47,12 @@ class CreateDairyForm(forms.ModelForm):
             'location':forms.TextInput(attrs={"class": "form-control","placeholder":"enter dairy location"}),
             # 'members': forms.ModelMultipleChoiceField(queryset=User.objects.filter(is_active=True),widget=forms.SelectMultiple(attrs={"class": "form-control"}))
         }
-    
-class LocationForm(forms.ModelForm):
-    class Meta:
-        model = Location
-        fields = "__all__"
+
 
 class CreateMilkRecordForm(forms.ModelForm):
     user = forms.ModelChoiceField(queryset=None,widget=forms.Select(attrs={"class":"form-select"}))
     dairy = forms.ModelChoiceField(queryset=None,initial=2,widget=forms.Select(attrs={"class":"form-select"}))
-    date = forms.DateField(initial=datetime.date.today,widget=DateInput(attrs={"class":"form-control","placeholder":"dd-mm-yyyy"}))
+    date = forms.DateField(widget=DateInput(attrs={"class":"form-control date-picker","placeholder":"dd-mm-yyyy"},format="%Y-%m-%d"))
     # input_formats=['%Y%m%d']
     class Meta:
         model = MilkRecord

@@ -1,15 +1,14 @@
-
 {%extends "../base.html"%}
-{%block title%}fatrate list{%endblock title%}
+{%block title%}{%trans 'fatrate list' %}{%endblock title%}
 {%block table_data%}
 <table class="table">
     <a class="float-end nav-link " href="{%url  'dairyapp:create-fat'%}">add fat rates</a>
     <thead>
         <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Fat Rate</th>
-            <th scope="col">Dairy</th>
-            <th scope="col">Actions</th>
+            <th scope="col">{%trans 'Id'%}</th>
+            <th scope="col">{%trans 'Fat Rate'%}</th>
+            <th scope="col">{%trans 'Dairy'%}</th>
+            <th scope="col">{%trans 'Actions'%}</th>
 
         </tr>
     </thead>
@@ -21,11 +20,11 @@
             <td>{{fatrate.dairy}}</td>
             <td>
                 <form action="{% url 'dairyapp:edit_fat' fatrate.id%}" class="d-inline">
-                    <button type="submit" class="btn btn-danger">edit</button>
+                    <button type="submit" class="btn btn-danger">{%trans 'edit' %}</button>
                 </form>
                 <form action="{% url 'dairyapp:delete_fat' fatrate.id%}" method="POST" class="d-inline">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-danger">delete</button>
+                    <button type="submit" class="btn btn-danger">{%trans 'delete' %}</button>
                 </form>
             </td>
 

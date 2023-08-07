@@ -42,7 +42,7 @@ class UserAdmin(BaseUserAdmin):
             },
         ),
     ]
-    search_fields = ["email","phone_number"]
+    search_fields = [_("email"),_("phone_number")]
     ordering = ["first_name"]
     filter_horizontal = []
 

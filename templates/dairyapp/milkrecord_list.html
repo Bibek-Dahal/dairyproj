@@ -1,18 +1,19 @@
 {%extends "../base.html"%}
-{%block title%}list milk record{%endblock title%}
+{% load i18n %}
+{%block title%}{%trans 'List Milk Record' %}{%endblock title%}
 {%block table_data%}
 <table class="table">
-    
+
     <a class="float-end nav-link " href="{%url  'dairyapp:create_milk_record' dairy %}">Add Milk Record</a>
     <thead>
         <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Dairy</th>
-            <th scope="col">User</th>
-            <th scope="col">Shift</th>
-            <th scope="col">Milk Weight</th>
-            <th scope="col">Milk Fat</th>
-            <th scope="col">Date</th>
+            <th scope="col">{%trans 'Id' %}</th>
+            <th scope="col">{%trans 'Dairy' %}</th>
+            <th scope="col">{%trans 'User' %}</th>
+            <th scope="col">{%trans 'Shift' %}</th>
+            <th scope="col">{%trans 'Milk Weight' %}</th>
+            <th scope="col">{%trans 'Milk Fat' %}</th>
+            <th scope="col">{%trans 'Date' %}</th>
 
         </tr>
     </thead>
@@ -21,18 +22,20 @@
         <tr>
             <th scope="row">{{milkrecord.id}}</th>
             <td>{{milkrecord.dairy}}</td>
-            <td><a href="{% url 'dairyapp:member_milk_record' id=milkrecord.user.id dairy=milkrecord.dairy.name%}">{{milkrecord.user}}</a></td>
+            <td><a
+                    href="{% url 'dairyapp:member_milk_record' id=milkrecord.user.id dairy=milkrecord.dairy.name%}">{{milkrecord.user}}</a>
+            </td>
             <td>{{milkrecord.shift}}</td>
             <td>{{milkrecord.milk_weight}}</td>
             <td>{{milkrecord.milk_fat}}</td>
             <td>{{milkrecord.date}}</td>
             <td>
                 <form action="{% url 'dairyapp:update_milk_record' id=milkrecord.id dairy=dairy%}" class="d-inline">
-                    <button type="submit" class="btn btn-danger">edit</button>
+                    <button type="submit" class="btn btn-danger">{% trans 'edit' %}</button>
                 </form>
                 <form action="#" method="POST" class="d-inline">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-danger">delete</button>
+                    <button type="submit" class="btn btn-danger">{% tarns 'delete' %}</button>
                 </form>
             </td>
 
@@ -45,7 +48,7 @@
 </table>
 
 {%for member in members%}
-    {{member.first_name}}|{{member.last_name}}|{{member.phone_number}}
+{{member.first_name}}|{{member.last_name}}|{{member.phone_number}}
 {%endfor%}
 
 

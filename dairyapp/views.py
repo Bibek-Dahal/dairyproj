@@ -1,11 +1,11 @@
 
+
 from typing import Any, Dict
-from django.db import models
 from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views import View
-from django.http import Http404, HttpResponseRedirect,HttpResponseForbidden
+from django.http import Http404, HttpResponse, HttpResponseRedirect,HttpResponseForbidden,HttpResponseNotFound
 from dairyapp.models import *
 from .forms import *
 from django.views.generic import ListView
@@ -20,11 +20,12 @@ import datetime
 from django.db.models import Avg,Sum
 from .decorators import verified_dairy_user
 from django.core.exceptions import PermissionDenied
-
+import uuid
+import requests as req
 
 
 @method_decorator(login_required(login_url='account_login'),name="dispatch")
-@method_decorator(verified_dairy_user,name="dispatch")
+# @method_decorator(verified_dairy_user,name="dispatch")
 class HomeView(View):
     def get(self,request):
         auser = get_user_model()
@@ -77,7 +78,7 @@ class EditFatView(UpdateView):
 class CreateFatView(View):
     def get(self,request,*args,**kwargs):
         print(self.request.user)
-        dairies = Dairy.verObs.filter(user=self.request.user)
+        dairies = Dairy.objects.filter(user=self.request.user)
         print(dairies)
         form = CreateFatForm(self.request,initial={'fat_rate':20})
         print(form.fields['dairy'])
@@ -140,11 +141,18 @@ class DeleteFatRate(DeleteView):
        
 #Dairy views
 @method_decorator(login_required(login_url='account_login'),name="dispatch")
-@method_decorator(verified_dairy_user,name="dispatch")
+# @method_decorator(verified_dairy_user,name="dispatch")
 class CreateDairyView(CreateView):
      model = Dairy
      form_class = CreateDairyForm
      template_name_suffix = '_create_form'
+
+     def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        uid = uuid.uuid4()
+        context['uid'] = uid
+        print("uid",uid)
+        return context
 
      def form_valid(self, form):
         """If the form is valid, save the associated model."""
@@ -159,7 +167,7 @@ class UpadteDairyView(UpdateView):
      template_name = 'dairyapp/dairy_edit_form.html'
     
 
-     def get_queryset(self) -> QuerySet[Any]:
+     def get_queryset(self):
           return super().get_queryset().filter(user=self.request.user)
     
 
@@ -194,17 +202,20 @@ class CreateMilkRercord(View):
             try:
                 print(kwargs['dairy'])
                 dairy = Dairy.objects.get(name=kwargs['dairy'],user=self.request.user)
-                print("dairy",dairy)
+                print("dairy===============",dairy)
                 # dairy =get_object_or_404(Dairy,name=kwargs['dairy'],user=self.request.user)
-                if dairy.is_verified:
-                    print(dairy.members.all())
-                    form = CreateMilkRecordForm(dairy)
+                # if dairy.is_verified:
+                print(dairy.members.all())
+                form = CreateMilkRecordForm(dairy)
                     
-                    return render(request,'dairyapp/milkrecord_create.html',{'form':form})
-                else:
-                    print('inside else')
-                    #  raise HttpResponseForbidden("Sorry,")
-                    raise PermissionDenied()
+                return render(request,'dairyapp/milkrecord_create.html',{'form':form})
+                # else:
+                #     print('inside else')
+                #     #  raise HttpResponseForbidden("Sorry,")
+                #     raise PermissionDenied()
+            except Dairy.DoesNotExist:
+                 raise Http404
+                 
             except Exception as e:
                  raise e
         
@@ -234,7 +245,7 @@ class UpdateMilkRercord(View):
             try:
                 id = self.kwargs['id']
                 print("id",id)
-                dairy = Dairy.verObs.get(name=kwargs['dairy'],user=self.request.user)
+                dairy = Dairy.objects.get(name=kwargs['dairy'],user=self.request.user)
                 print("dairy",dairy)
                 milkrecord = MilkRecord.objects.get(id=id)
                 print("milkrec",milkrecord)
@@ -250,7 +261,7 @@ class UpdateMilkRercord(View):
     def post(self,request,*args,**kwargs):
             id = self.kwargs['id']
             print("inside mike record post methos")
-            dairy =get_object_or_404(Dairy,name=kwargs['dairy'],user=self.request.user,is_verified=True)
+            dairy =get_object_or_404(Dairy,name=kwargs['dairy'],user=self.request.user)
             milkrecord = MilkRecord.objects.get(id=id)
             form = CreateMilkRecordForm(dairy,request.POST,instance = milkrecord)
             if form.is_valid():
@@ -382,3 +393,26 @@ class ListMemberMilkRecord(ListView):
         return queryset.filter(filters)
     
 
+class VerifyEsewa(View):
+     def get(self,request):
+        url ="https://uat.esewa.com.np/epay/transrec"
+        q = request.GET.get('q')
+        print(request.GET)
+        
+
+        d = {
+            'amt':request.GET.get('amt'),
+            'scd': 'EPAYTEST',
+            'rid':  request.GET.get('refId'),
+            'pid':request.GET.get('oid'),
+        }
+        resp = req.post(url, d)
+        print("status code=====",resp.status_code)
+        if resp.status_code == 200:
+            user = self.request.user
+            user.has_verified_dairy = True
+            user.save()
+        # print(resp.text)
+            return HttpResponseRedirect(reverse('dairyapp:create_dairy'))
+        else:
+            raise Http404()

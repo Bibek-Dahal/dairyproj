@@ -15,16 +15,16 @@ class MyUserManager(BaseUserManager):
         print("create user called")
         print(phone_number)
         if not phone_number:
-            raise ValueError("Users must have an phone number")
+            raise ValueError(_("Users must have an phone number"))
         
         if not first_name:
-            raise ValueError("Users must have an first name")
+            raise ValueError(_("Users must have an first name"))
         
         if not last_name:
             raise ValueError("Users must have an last name")
         
         if not email:
-            raise ValueError("Users must have an last name")
+            raise ValueError(_("Users must have an last name"))
         
         
         # user = None
@@ -83,7 +83,7 @@ class User(AbstractBaseUser,PermissionsMixin):
     phone_number = models.IntegerField(_("phone number"),unique=True)
     is_email_verified = models.BooleanField(_("email verified"),default=False)
     address = models.CharField(_("address"),max_length=100,blank=True,null=True)
-    has_verified_dairy = models.BooleanField(default=False)
+    has_verified_dairy = models.BooleanField(_("has verified dairy"),default=False)
     is_staff = models.BooleanField(
         _("staff status"),
         default=False,

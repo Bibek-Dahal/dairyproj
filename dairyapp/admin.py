@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .forms import LocationForm
+
 from .models import *
 # Register your models here.
 
@@ -18,8 +18,3 @@ class MilkRecord(admin.ModelAdmin):
     list_display = ["id","dairy","user","shift","date","created_at","updated_at"]
 
 
-@admin.register(Location)
-class LocationAdmin(admin.ModelAdmin):
-    list_display = ["location"]
-    form = LocationForm
-    add_form = LocationForm

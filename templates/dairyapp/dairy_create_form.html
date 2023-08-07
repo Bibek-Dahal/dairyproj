@@ -1,13 +1,15 @@
 {% extends 'base.html'%}
 {% load static%}
-{%block title%}create dairy{%endblock title%}
+{% load i18n %}
+{%block title%}{%trans 'Create Dairy' %}{%endblock title%}
 
 {%block content%}
 
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6 col-sm-8 col-lg-5 col-12">
-            <form action="" method="POST" novalidate class="form-control shadow-lg p-sm-5">
+            {% if request.user.has_verified_dairy%}
+            <form method="POST" novalidate class="form-control shadow-lg p-sm-5">
                 {% csrf_token%}
                 {% if form.non_field_errors%}
                 {% for error in form.non_field_errors%}
@@ -16,7 +18,7 @@
                 {% endif%}
                 <div class="row text-center">
                     <div class="col">
-                        <h2 class="text-info">Insert Dairy</h2>
+                        <h2 class="text-info">{%trans 'Insert Dairy' %}</h2>
                     </div>
                 </div>
                 {% for field in form%}
@@ -34,18 +36,42 @@
                 {%endfor%}
                 <div class="row justify-content-center">
                     <div class="d-grid gap-2 my-2 col-12 col-sm-8 mx-auto">
-                        <button class="btn btn-primary" type="submit">Submit</button>
+                        <button class="btn btn-primary" type="submit">{%trans 'Submit' %}</button>
+
                     </div>
 
                 </div>
             </form>
+            {%else%}
+
+            <body>
+                <p>{% trans 'You must first pay charge to add dairy' %}</p>
+                <form action="https://uat.esewa.com.np/epay/main" method="POST">
+                    <input value="100" name="tAmt" type="hidden">
+                    <input value="90" name="amt" type="hidden">
+                    <input value="5" name="txAmt" type="hidden">
+                    <input value="2" name="psc" type="hidden">
+                    <input value="3" name="pdc" type="hidden">
+                    <input value="EPAYTEST" name="scd" type="hidden">
+                    <input value="{{uid}}" name="pid" type="hidden">
+                    <input value="http://127.0.0.1:8000/verify-esewa?q={{request.user.id}}" type="hidden" name="su">
+                    <input value="http://merchant.com.np/page/esewa_payment_failed?q=fu" type="hidden" name="fu">
+                    <input class="btn btn-primary" value="{% trans 'Pay with esewa' %}" type="submit">
+                </form>
+            </body>
+            {%endif%}
+
+
         </div>
     </div>
     <script>
         $(document).ready(function () {
             $('.dairy-member-select').select2();
-            
+
         });
+
+
     </script>
+
 </div>
 {%endblock content%}

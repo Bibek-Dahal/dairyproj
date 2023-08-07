@@ -1,18 +1,18 @@
 {% extends 'base.html'%}
-
+{% load i18n %}
 {% load static%}
 {%block title%}login{%endblock title%}
 {%block navbar%}{%endblock navbar%}
 {%block content%}
 
 {%block messageinfo%}
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
         {% endfor %}
-    </ul>
-    {% endif %}
+</ul>
+{% endif %}
 {%endblock%}
 
 <div class="container mt-5">
@@ -27,7 +27,7 @@
                 {% endif%}
                 <div class="row text-center">
                     <div class="col">
-                        <h2 class="text-info">Login</h2>
+                        <h2 class="text-info">{% trans 'Login' %}</h2>
                     </div>
                 </div>
                 {% for field in form%}
@@ -51,8 +51,8 @@
                         <small class="mb-5"><a href="{% url 'account_reset_password' %}">Forgot Password ?</a></small>
                         <br>
                         <div class="text-center text-primary fw-bold">
-                            <small>New to our site? <a href="{% url 'account_signup' %}" class="text-danger">Create an
-                                    Account</a> </small>
+                            <small>{%trans 'New to our site?'%} <a href="{% url 'account_signup' %}"
+                                    class="text-danger">{% trans 'Create an Account' %}</a> </small>
                         </div>
                     </div>
                 </div>
