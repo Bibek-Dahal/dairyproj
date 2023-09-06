@@ -52,14 +52,14 @@
 
     <a class="float-end nav-link " href="{%url  'dairyapp:create_milk_record' dairy %}">Add Milk Record</a>
     <thead>
-        <tr> {% tarns '' %}
-            <th scope="col">{% tarns 'Id' %}</th>
-            <th scope="col">{% tarns 'Dairy' %}</th>
-            <th scope="col">{% tarns 'User' %}</th>
-            <th scope="col">{% tarns 'Shift' %}</th>
-            <th scope="col">{% tarns 'Milk Weight' %}</th>
-            <th scope="col">{% tarns 'Milk Fat' %}</th>
-            <th scope="col">{% tarns 'Date' %}</th>
+        <tr> 
+            <th scope="col">{% trans 'Id' %}</th>
+            <th scope="col">{% trans 'Dairy' %}</th>
+            <th scope="col">{% trans 'User' %}</th>
+            <th scope="col">{% trans 'Shift' %}</th>
+            <th scope="col">{% trans 'Milk Weight' %}</th>
+            <th scope="col">{% trans 'Milk Fat' %}</th>
+            <th scope="col">{% trans 'Date' %}</th>
 
         </tr>
     </thead>

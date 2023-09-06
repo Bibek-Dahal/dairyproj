@@ -48,11 +48,11 @@ class CreateDairyForm(forms.ModelForm):
             # 'members': forms.ModelMultipleChoiceField(queryset=User.objects.filter(is_active=True),widget=forms.SelectMultiple(attrs={"class": "form-control"}))
         }
 
-
+import datetime
 class CreateMilkRecordForm(forms.ModelForm):
     user = forms.ModelChoiceField(queryset=None,widget=forms.Select(attrs={"class":"form-select"}))
     dairy = forms.ModelChoiceField(queryset=None,initial=2,widget=forms.Select(attrs={"class":"form-select"}))
-    date = forms.DateField(widget=DateInput(attrs={"class":"form-control date-picker","placeholder":"dd-mm-yyyy"},format="%Y-%m-%d"))
+    date = forms.DateField(initial=datetime.datetime.now(),widget=DateInput(attrs={"class":"form-control date-picker","placeholder":"dd-mm-yyyy"},format="%Y-%m-%d"))
     # input_formats=['%Y%m%d']
     class Meta:
         model = MilkRecord

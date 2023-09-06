@@ -90,28 +90,6 @@ DATABASES = {
         "PORT": os.environ.get("DB_PORT")
     }
 }
-print("db name=====",os.environ.get('DB_NAME'))
-print("db root user=====",os.environ.get('DB_ROOT_USER'))
-print("db password=====",os.environ.get('DB_ROOT_PASSWORD'))
-print("db host=====",os.environ.get('DB_HOST'))
-print("db port=====",os.environ.get('DB_PORT'))
-
-
-
-# DATABASES = {
-#     "default": {
-#         "ENGINE": 'django.db.backends.mysql',
-
-#         "NAME": 'Dairy',
-#         "USER": 'root',
-#         "PASSWORD": 'bibek',
-#         "HOST": 'db',
-#         "PORT": '3306',
-#     }
-# }
-
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
