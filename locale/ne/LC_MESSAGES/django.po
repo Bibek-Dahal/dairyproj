@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-03 20:16+0545\n"
+"POT-Creation-Date: 2023-09-05 16:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1318,13 +1318,31 @@ msgstr "फोन नम्बर"
 msgid "E-mail address"
 msgstr "इ - मेल ठेगाना"
 
+#: my_account/forms.py:87
+#, fuzzy
+#| msgid "first name"
+msgid "First name"
+msgstr "पहिलो नाम"
+
 #: my_account/forms.py:87 my_account/models.py:79
 msgid "first name"
 msgstr "पहिलो नाम"
 
+#: my_account/forms.py:88
+#, fuzzy
+#| msgid "middle name"
+msgid "Middle Name"
+msgstr "बीचको नाम"
+
 #: my_account/forms.py:88 my_account/models.py:80
 msgid "middle name"
 msgstr "बीचको नाम"
+
+#: my_account/forms.py:89 my_account/forms.py:90
+#, fuzzy
+#| msgid "last name"
+msgid "Last name"
+msgstr "थर"
 
 #: my_account/forms.py:89 my_account/models.py:81
 msgid "last name"
@@ -1676,6 +1694,7 @@ msgstr "सम्पादन"
 
 #: templates/dairyapp/fatrate_list.html:27
 #: templates/dairyapp/member_milkrecord_list.html:82
+#: templates/dairyapp/milkrecord_list.html:39
 msgid "delete"
 msgstr "मेट्नुहोस्"
 

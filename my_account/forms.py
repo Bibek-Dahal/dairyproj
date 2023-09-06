@@ -8,6 +8,7 @@ from django.core.validators import RegexValidator
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from allauth.account.forms import SignupForm,LoginForm,ChangePasswordForm,ResetPasswordKeyForm,ResetPasswordForm,SetPasswordForm,AddEmailForm
 from allauth.account import app_settings
+from django.contrib.auth.forms import UserCreationForm
 # from django.contrib.auth.forms import UserCreationForm
 
 
@@ -86,7 +87,7 @@ class MyUserCreationForm(SignupForm):
     )
     first_name = CharField(max_length=20,min_length=2,widget=forms.TextInput(attrs={'class':'form-control','placeholder':_("first name")}))
     middle_name = CharField(required=False,max_length=20,min_length=2,widget=forms.TextInput(attrs={'class':'form-control','placeholder':_("middle name")}))
-    last_name = CharField(max_length=20,min_length=2,widget=forms.TextInput(attrs={'class':'form-control','placeholder':_("last name")}))
+    last_name = CharField(label=_("Last name"),max_length=20,min_length=2,widget=forms.TextInput(attrs={'class':'form-control','placeholder':_("last name")}))
     phone_number = CharField(widget=forms.NumberInput(attrs={'class':'form-control','maxlength':10,'minlength':10}))
     field_order = ["email","phone_number","first_name","middle_name","last_name","password1","password2"]
     
