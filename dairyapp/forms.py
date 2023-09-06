@@ -3,6 +3,7 @@ from django import forms
 from .models import *
 from my_account.models import User
 from .custom_widget import DateInput
+from utils.dairyapp.decideshift import getShift
 
 
 
@@ -50,16 +51,19 @@ class CreateDairyForm(forms.ModelForm):
 
 import datetime
 class CreateMilkRecordForm(forms.ModelForm):
+    shiftinfo = getShift()
+    # if 
     user = forms.ModelChoiceField(queryset=None,widget=forms.Select(attrs={"class":"form-select"}))
     dairy = forms.ModelChoiceField(queryset=None,initial=2,widget=forms.Select(attrs={"class":"form-select"}))
     date = forms.DateField(initial=datetime.datetime.now(),widget=DateInput(attrs={"class":"form-control date-picker","placeholder":"dd-mm-yyyy"},format="%Y-%m-%d"))
+    shift = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-select"}),initial=shiftinfo,choices=MilkRecord.shift_choices)
     # input_formats=['%Y%m%d']
     class Meta:
         model = MilkRecord
         fields = ["shift","dairy","user","milk_weight","milk_fat","date"]
 
         widgets = {
-            'shift':forms.Select(attrs={"class":"form-select"}),
+            # 'shift':forms.Select(attrs={"class":"form-select"}),
             'milk_weight':forms.NumberInput(attrs={"class":"form-control"}),
             'milk_fat':forms.NumberInput(attrs={"class":"form-control"}),
         }

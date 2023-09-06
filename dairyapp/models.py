@@ -38,8 +38,8 @@ class FatRate(models.Model):
     
 class MilkRecord(models.Model):
     shift_choices = (
-        (_("morning"),_("morning")),
-        (_("night"),_("night"))
+        ("morning","morning"),
+        ("night","night")
     )
     dairy = models.ForeignKey(Dairy,on_delete=models.CASCADE,verbose_name=_("dairy"))
     user = models.ForeignKey(User,on_delete=models.CASCADE,verbose_name=_("user"))
