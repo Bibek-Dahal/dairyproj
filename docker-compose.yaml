@@ -12,12 +12,9 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      db:
-        condition: service_completed_successfully
+      - db   
   db:
     image: mysql
-    ports:
-      - "3306:3306"
     container_name: mysql
     env_file:
       - ./db_config.env
