@@ -1,5 +1,6 @@
 {%extends "../base.html"%}
-{%block title%}{%trans 'fatrate list' %}{%endblock title%}
+{% load i18n %}
+{%block title%}{%trans 'fatrate list'%}{%endblock title%}
 {%block table_data%}
 <table class="table">
     <a class="float-end nav-link " href="{%url  'dairyapp:create-fat'%}">add fat rates</a>
