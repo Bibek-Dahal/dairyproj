@@ -19,7 +19,9 @@
 
     {%block additionalcss%}{%endblock%}
     {%block additionaljs%} {%endblock%}
+    
 </head>
+
 
 <body>
     {%block navbar%}
@@ -50,11 +52,12 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            
+                            <li><a class="dropdown-item" href="#">{%include './includes/lang_select.html'%}</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled">Disabled</a>
+                        <a class="nav-link">{%include './includes/lang_select.html'%}</a>
                     </li>
                     <form class="d-flex" role="search">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -76,6 +79,7 @@
     {%block content%}
     
     {%block left_side_bar%}
+    
     <div class="container-fluid ">
 
         <div class="left-side-bar">
@@ -115,6 +119,7 @@
 
     {%endblock content%}
     {%block footer%} {%endblock%}
+    
 </body>
 
 </html>

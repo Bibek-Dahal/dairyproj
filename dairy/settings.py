@@ -2,6 +2,7 @@
 import os
 
 from pathlib import Path
+from django.utils.translation import gettext_lazy as _
 
 from django.urls import reverse
 
@@ -182,3 +183,7 @@ LOCALE_PATHS = [
     BASE_DIR/'locale',
 ]
 LANGUAGE_CODE = 'ne'
+LANGUAGES = [
+    ("ne", _("Nepali")),
+    ("en", _("English")),
+]
