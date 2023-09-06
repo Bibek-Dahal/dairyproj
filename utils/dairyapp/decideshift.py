@@ -1,22 +1,22 @@
 import datetime
 from dairyapp.models import MilkRecord
+import pytz
+
 def getShift():
-    # Get the current time
-    current_time = datetime.datetime.now().time()
+    desired_timezone = pytz.timezone('Asia/Kathmandu')
+    current_time = datetime.datetime.now(desired_timezone)
+    print(current_time)
 
-    # Define the morning and night time ranges
-    morning_start = datetime.time(0, 0)  # Midnight
-    morning_end = datetime.time(11, 59, 59)  # 11:59:59 AM
 
-    night_start = datetime.time(12, 0)  # Noon
-    night_end = datetime.time(23, 59, 59)  # 11:59:59 PM
+    # Extract the hour component from the current time
+    current_hour = current_time.hour
 
-    # Check if it's morning or night
-    if morning_start <= current_time <= morning_end:
-        # print("It's morning.========")
-        # print(MilkRecord.shift_choices[0][1])
+    print("current_hour======",current_hour)
+
+    # Determine whether it's AM or PM
+    if current_hour < 12:
+
         return MilkRecord.shift_choices[0][1]
-    elif night_start <= current_time <= night_end:
-        return MilkRecord.shift_choices[1][1]
     else:
-        return MilkRecord.shift_choices[0][1]
+         return MilkRecord.shift_choices[1][1]
+    
