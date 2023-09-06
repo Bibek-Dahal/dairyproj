@@ -4,6 +4,7 @@ from .models import *
 from my_account.models import User
 from .custom_widget import DateInput
 from utils.dairyapp.decideshift import getShift
+from django.utils.translation import gettext_lazy as _
 
 
 
@@ -65,7 +66,7 @@ class CreateMilkRecordForm(forms.ModelForm):
         widgets = {
             # 'shift':forms.Select(attrs={"class":"form-select"}),
             'milk_weight':forms.NumberInput(attrs={"class":"form-control"}),
-            'milk_fat':forms.NumberInput(attrs={"class":"form-control"}),
+            'milk_fat':forms.NumberInput(attrs={"class":"form-control","min":"0"}),
         }
     def __init__(self,dairy,*args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -73,3 +74,13 @@ class CreateMilkRecordForm(forms.ModelForm):
         self.fields["user"].queryset = dairy.members.all()
         self.fields["dairy"].queryset = Dairy.objects.filter(id=dairy.id)
         print("last of init")
+    
+    def clean_milk_fat(self):
+        value = float(self.cleaned_data['milk_fat'])
+        lower_bound = 0
+        upper_bound = 20
+        
+        if  (lower_bound <= value <=upper_bound):
+            return self.cleaned_data['milk_fat']
+        
+        raise forms.ValidationError(_("Milk fat should be between %(low_range)d and %(high_range)d") % {'low_range':0,'high_range':20})
