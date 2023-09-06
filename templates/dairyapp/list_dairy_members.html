@@ -1,0 +1,19 @@
+{% extends 'base.html'%}
+{% load static%}
+{% load i18n %}
+{%block title%}{%trans 'Create Dairy' %}{%endblock title%}
+
+{%block content%}
+
+<div class="container mt-5">
+    {%for member in members%}
+        <a href="{% url 'dairyapp:member_milk_record' id=member.id dairy=dairy%}">{{member.id}}</a>
+        
+        <p>first name: {{member.first_name}}</p>
+        <p>middle name: {{member.middle_name}}</p>
+        <p>last name: {{member.last_name}}</p>
+        {{member.phone_number}}
+        <hr>
+    {%endfor%}
+</div>
+{%endblock content%}

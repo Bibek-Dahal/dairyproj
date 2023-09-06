@@ -13,6 +13,7 @@
             <th scope="col">{%trans 'Location'%}</th>
             <th scope="col">{%trans 'Verified'%}</th>
             <th scope="col">{%trans 'List Records'%}</th>
+            <th scope="col">{%trans 'List Members'%}</th>
             <th scope="col">{%trans 'Actions'%}</th>
 
         </tr>
@@ -26,6 +27,7 @@
             <td>{{dairy.location}}</td>
             <td>{{dairy.is_verified}}</td>
             <td><a href="{% url 'dairyapp:milk_record' dairy.name%}">{%trans 'view' %}</a></td>
+            <td><a href="{% url 'dairyapp:list_dairy_members' pk=dairy.id dairy=dairy.name%}">{%trans 'view' %}</a></td>
             <td>
                 <form action="{% url 'dairyapp:update_dairy' dairy.id%}" class="d-inline">
                     <button type="submit" class="btn btn-danger">{%trans 'edit'%}</button>

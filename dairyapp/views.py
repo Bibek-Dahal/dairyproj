@@ -8,9 +8,10 @@ from django.views import View
 from django.http import Http404, HttpResponse, HttpResponseRedirect,HttpResponseForbidden,HttpResponseNotFound
 from dairyapp.models import *
 from .forms import *
-from django.views.generic import ListView
+from django.views.generic import ListView,DetailView
 from django.views.generic.edit import UpdateView,DeleteView,CreateView
 from django.shortcuts import get_object_or_404
+
 # Create your views here.
 from django.contrib.auth import get_user_model
 from django.utils.decorators import method_decorator
@@ -416,3 +417,25 @@ class VerifyEsewa(View):
             return HttpResponseRedirect(reverse('dairyapp:create_dairy'))
         else:
             raise Http404()
+
+@method_decorator(login_required(login_url='account_login'),name="dispatch")
+@method_decorator(verified_dairy_user,name="dispatch")
+class ListDairyMembers(ListView):
+     model = Dairy
+     template_name = 'dairyapp/list_dairy_members.html'
+     context_object_name = 'members'
+     def get_queryset(self):
+          print("hello =========")
+          qs = super().get_queryset().filter(user=self.request.user)
+          print(qs[0].members.all)
+          if len(qs) == 1:
+               return qs[0].members.all
+          return []
+     
+     def get_context_data(self, **kwargs):
+          context =  super().get_context_data(**kwargs)
+          print("context===",context)
+          
+          context['dairy'] = self.kwargs['dairy']
+          return context
+
