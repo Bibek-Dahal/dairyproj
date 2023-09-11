@@ -1,8 +1,5 @@
-
-
-from typing import Any, Dict
 from django.db.models.query import QuerySet
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.http import Http404, HttpResponse, HttpResponseRedirect,HttpResponseForbidden,HttpResponseNotFound
@@ -11,7 +8,7 @@ from .forms import *
 from django.views.generic import ListView,DetailView
 from django.views.generic.edit import UpdateView,DeleteView,CreateView
 from django.shortcuts import get_object_or_404
-
+from django.contrib import messages
 # Create your views here.
 from django.contrib.auth import get_user_model
 from django.utils.decorators import method_decorator
@@ -23,6 +20,9 @@ from .decorators import verified_dairy_user
 from django.core.exceptions import PermissionDenied
 import uuid
 import requests as req
+from django.views.generic import View
+from django.utils.translation import gettext_lazy as _
+from django.template.loader import render_to_string
 
 
 @method_decorator(login_required(login_url='account_login'),name="dispatch")
@@ -351,8 +351,8 @@ class ListMemberMilkRecord(ListView):
              print("inside milk record")
              import random
              i = 1
-             for i in range(1,31):
-                  date = f"2023-07-{i}"
+             for i in range(10,30):
+                  date = f"2023-09-{i}"
                   if i<9:
                        date = f"2023-07-0{i}"
                   MilkRecord.objects.create(
@@ -373,21 +373,29 @@ class ListMemberMilkRecord(ListView):
         self.kwargs['total_price'] = 0
 
         if shift:
+            if qs:
+                """
+                perform qs operation if only qs is not empty
+                """
             
-            milk_wg = qs.aggregate(Sum("milk_weight")).get('milk_weight__sum')
-            avg_fat = qs.aggregate(Avg("milk_fat")).get('milk_fat__avg')
-            self.kwargs['total_milk_wieght'] = milk_wg
-            self.kwargs['avg_fat'] = avg_fat
-            print("milk_weight",milk_wg)
-            print("average_fat",avg_fat)
-            fat_rate = FatRate.objects.filter(dairy__user=self.request.user,dairy=dairy)
-
-            if fat_rate.exists():
-                print("fat_fate",fat_rate[0].fat_rate)
-                total_price = fat_rate[0].fat_rate*milk_wg*avg_fat
-                self.kwargs['total_price'] = total_price
-                # print("total price==",total_price)
-                pass
+                milk_wg = qs.aggregate(Sum("milk_weight")).get('milk_weight__sum')
+                avg_fat = qs.aggregate(Avg("milk_fat")).get('milk_fat__avg')
+                self.kwargs['total_milk_wieght'] = milk_wg
+                self.kwargs['avg_fat'] = avg_fat
+                print("milk_weight",milk_wg)
+                print("average_fat",avg_fat)
+                fat_rate = FatRate.objects.filter(dairy__user=self.request.user,dairy=dairy)
+                print("fat rate===",fat_rate[0].get_fat_rate)
+                if fat_rate.exists():
+                    print("inside fat_rate exists function")
+                    print("fat_fate",fat_rate[0].fat_rate)
+                    try:
+                        total_price = fat_rate[0].get_fat_rate*milk_wg*avg_fat
+                    except Exception as e:
+                        total_price = 0
+                    self.kwargs['total_price'] = total_price
+                    # print("total price==",total_price)
+                    pass
 
 
              
@@ -439,3 +447,77 @@ class ListDairyMembers(ListView):
           context['dairy'] = self.kwargs['dairy']
           return context
 
+
+@method_decorator(login_required(login_url='account_login'),name="dispatch")
+@method_decorator(verified_dairy_user,name="dispatch")
+class SendMilkReportEmialView(View):
+    def get(self,request,*args,**kwargs):
+        dairy_name = request.GET.get('dairy')
+        start_date = request.GET.get('start_date')
+        end_date = request.GET.get('end_date')
+        shift = request.GET.get('shift')
+        user_id = request.GET.get('id')
+        
+
+             
+        global user
+        global dairy
+        global fat_rate
+
+        try:
+            try:
+                dairy = Dairy.objects.get(name=dairy_name,user=request.user)
+            except Dairy.DoesNotExist:
+                messages.error(request, _("Sorry,dairy with username doesnot exists."))
+                return redirect("dairyapp:member_milk_record",id=user_id,dairy=dairy_name)
+            
+            try:
+                #get dairy based on dairy nama and dairy owner
+                fat_rate = FatRate.objects.get(dairy=dairy,dairy__user=request.user).get_fat_rate
+            except FatRate.DoesNotExist:
+                messages.error(request, _("Sorry,Please insert fatrate."))
+                return redirect("dairyapp:member_milk_record",id=user_id,dairy=dairy_name)
+                
+                
+            try:
+                user = User.objects.get(id=user_id)
+            except User.DoesNotExist:
+                messages.error(request, _("Sorry,invalid userid"))
+                return redirect("dairyapp:member_milk_record",id=user_id,dairy=dairy_name)
+            
+            morning_milk_records = MilkRecord.objects.filter(dairy__user=self.request.user,dairy=dairy,shift="morning",user=user,date__gte=start_date, date__lte=end_date)
+            night_milk_records = MilkRecord.objects.filter(dairy__user=self.request.user,date__gte=start_date, date__lte=end_date,shift="night",user=user)
+            if not morning_milk_records or not night_milk_records:
+                messages.error(request, _("Please select valid information before genarating milk report"))
+                return redirect("dairyapp:member_milk_record",id=user_id,dairy=dairy_name)
+            
+            print(morning_milk_records)
+            milk_wg = morning_milk_records.aggregate(Sum("milk_weight")).get('milk_weight__sum')
+            avg_fat = morning_milk_records.aggregate(Avg("milk_fat")).get('milk_fat__avg')
+            fat_rate = fat_rate
+            total_price = fat_rate*milk_wg*avg_fat
+            context = {
+                'total_milk_wieght':milk_wg,
+                'avg_fat': avg_fat,
+                'fat_rate':fat_rate,
+                'user':user,
+                'shift':'morning',
+                'total_price':total_price,
+                'morning_milk_records':morning_milk_records,
+                'night_milk_records': night_milk_records
+            }
+            print("context===========",context)
+            mail_template = render_to_string("dairyapp/email/report.html",context)
+            print(mail_template)
+            return HttpResponse(mail_template)
+            messages.success(request,_("milk report email sent"))
+            return redirect("dairyapp:member_milk_record",id=user_id,dairy=dairy_name)
+                
+        except Exception as e:
+            print("e----------",e)
+            raise Http404
+            # return HttpResponseNotFound
+            
+
+            
+            

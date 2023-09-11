@@ -20,11 +20,12 @@ class CreateFatForm(forms.ModelForm):
         self.fields["dairy"].queryset = Dairy.objects.filter(user=request.user)
     class Meta:
         model = FatRate
-        fields = ["fat_rate","dairy"]
+        fields = ["fat_rate","dairy","bonous_amount"]
 
         widgets ={
             # 'country':CountrySelectWidget(attrs={"class": "form-select"}),
             'fat_rate':forms.NumberInput(attrs={"class": "form-control","placeholder":"enter fat rate"}),
+            'bonous_amount':forms.NumberInput(attrs={'class':'form-control'})
             # 'dairy':forms.ChoiceField(widget=forms.ModelChoiceIterator())
             # 'username':forms.TextInput(attrs={"class": "form-control","placeholder":"enter your name","minlength":3})
             #'password':forms.PasswordInput(attrs={"class": "form-control"})

@@ -1,6 +1,16 @@
 {%extends "../base.html"%}
 {% load i18n %}
 {%block title%}{%trans 'Milk Record' %}{%endblock title%}
+{%block messageinfo%}
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
+    </ul>
+    {% endif %}
+
+{%endblock%}
 {%block table_data%}
 <div>
     {{count}}
@@ -49,7 +59,12 @@
 
 </div>
 <table class="table">
+    <a role="button" id="send-email-report-form" href="{%url 'dairyapp:milk_report_email'%}">
+        send milk report
+    </a>
 
+    
+    
     <a class="float-end nav-link " href="{%url  'dairyapp:create_milk_record' dairy %}">Add Milk Record</a>
     <thead>
         <tr> 
@@ -60,6 +75,7 @@
             <th scope="col">{% trans 'Milk Weight' %}</th>
             <th scope="col">{% trans 'Milk Fat' %}</th>
             <th scope="col">{% trans 'Date' %}</th>
+            <th scope="col">{% trans 'Actions' %}</th>
 
         </tr>
     </thead>
@@ -101,7 +117,7 @@
                 <h3>{{milkrecord.date}}</h3>
             </td>
             <td>
-                <h3>total price:{{total_price}}</h3>
+                <h3>total amount:{{total_price}}</h3>
             </td>
 
         </tr>
@@ -188,5 +204,34 @@
     function addValue() {
 
     }
+
+    
+
+    $(document).ready(function () {
+        
+        const url = new URLSearchParams(location.search)
+        console.log(url)
+        let href = document.getElementById("send-email-report-form").href
+        
+        const encodedDairyName = encodeURIComponent("{{dairy}}");
+        let params = `?id={{id}}&dairy=${encodedDairyName}&`
+        for (const [key, value] of url) {
+            params += `${key}=${value}&`
+            console.log(`${key}:${value}`);
+        }
+        console.log("params", params)
+        href = href + params
+        console.log("action", href)
+        let new_form = document.getElementById("send-email-report-form")
+        new_form.href = href
+        //new_form.submit()
+
+        //let new_form = document.getElementById("send-email-report-form")
+        //new_form.action = 'http://127.0.0.1:8000'
+
+    })
+    
+        
+    
 </script>
 {%endblock%}

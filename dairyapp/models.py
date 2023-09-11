@@ -30,11 +30,16 @@ class Dairy(models.Model):
 class FatRate(models.Model):
     fat_rate = models.FloatField(_("fat rate"),max_length=5)
     dairy = models.OneToOneField(Dairy,on_delete=models.CASCADE,verbose_name=_("dairy"))
+    bonous_amount = models.PositiveSmallIntegerField("Bonous amount",default=0)
     created_at = models.DateTimeField(_("created at"),auto_now_add=True)
     updated_at = models.DateTimeField(_("updated at"),auto_now=True)
 
     def __str__(self) -> str:
         return f"{self.dairy.name}-{self.fat_rate}"
+    
+    @property
+    def get_fat_rate(self):
+        return self.fat_rate + self.bonous_amount
     
 class MilkRecord(models.Model):
     shift_choices = (

@@ -21,4 +21,5 @@ urlpatterns = [
     path("update-milk-record/<int:id>/<str:dairy>",views.UpdateMilkRercord.as_view(),name="update_milk_record"),
     path("list-member-milk-record/<int:id>/<str:dairy>",views.ListMemberMilkRecord.as_view(),name="member_milk_record"),
     path("verify-esewa",views.VerifyEsewa.as_view(),name="verify_esewa"),
+    path("send-milk-report-email",views.SendMilkReportEmialView.as_view(),name="milk_report_email")
 ]
