@@ -166,7 +166,7 @@ LOGIN_REDIRECT_URL = 'dairyapp:homepage'
 LOGIN_URL = 'account_login'
 LOGOUT_REDIRECT_URL = 'account_login'
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 ACCOUNT_FORMS = {
     'add_email': 'my_account.forms.MyAddEmailForm',
@@ -188,3 +188,13 @@ LANGUAGES = [
     ("ne", _("Nepali")),
     ("en", _("English")),
 ]
+
+# Mial Configuration
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = os.environ.get('EMAIL_PORT')
+
+
+

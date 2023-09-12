@@ -3,7 +3,7 @@ from django import forms
 from .models import *
 from my_account.models import User
 from .custom_widget import DateInput
-from utils.dairyapp.decideshift import getShift
+from utils.dairyapp.commonutils import getShift
 from django.utils.translation import gettext_lazy as _
 
 

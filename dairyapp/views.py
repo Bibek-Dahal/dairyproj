@@ -1,3 +1,4 @@
+import io
 from django.db.models.query import QuerySet
 from django.shortcuts import render,redirect
 from django.urls import reverse, reverse_lazy
@@ -23,6 +24,9 @@ import requests as req
 from django.views.generic import View
 from django.utils.translation import gettext_lazy as _
 from django.template.loader import render_to_string
+from weasyprint import HTML
+from utils.dairyapp.commonutils import sendMial
+from django.conf import settings
 
 
 @method_decorator(login_required(login_url='account_login'),name="dispatch")
@@ -498,18 +502,38 @@ class SendMilkReportEmialView(View):
             total_price = fat_rate*milk_wg*avg_fat
             context = {
                 'total_milk_wieght':milk_wg,
-                'avg_fat': avg_fat,
-                'fat_rate':fat_rate,
+                'avg_fat': round(avg_fat,3),
+                'fat_rate':round(fat_rate,3),
                 'user':user,
                 'shift':'morning',
-                'total_price':total_price,
+                'total_price':round(total_price,3),
                 'morning_milk_records':morning_milk_records,
                 'night_milk_records': night_milk_records
             }
             print("context===========",context)
-            mail_template = render_to_string("dairyapp/email/report.html",context)
-            print(mail_template)
-            return HttpResponse(mail_template)
+            rendered_mail_template = render_to_string("dairyapp/email/report.html",context)
+            html = HTML(string=rendered_mail_template)
+            buffer = io.BytesIO()
+            html.write_pdf(target=buffer)
+            pdf = buffer.getvalue()
+
+            filename = 'test.pdf'
+            mimetype_pdf = 'application/pdf'
+            # print(rendered_mail_template)
+
+            try:
+                 
+                sendMial(
+                    subject="Milk Report",
+                    from_email=settings.EMAIL_HOST_USER,
+                    to=user.email,
+                    message="hello",
+                    filename=filename,
+                    pdf=pdf)
+            except Exception as e:
+                 print(e)
+
+            return HttpResponse(rendered_mail_template)
             messages.success(request,_("milk report email sent"))
             return redirect("dairyapp:member_milk_record",id=user_id,dairy=dairy_name)
                 
