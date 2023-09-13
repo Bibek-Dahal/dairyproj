@@ -27,6 +27,7 @@ from django.template.loader import render_to_string
 from weasyprint import HTML
 from utils.dairyapp.commonutils import sendMial
 from django.conf import settings
+from django.forms import formset_factory
 
 
 @method_decorator(login_required(login_url='account_login'),name="dispatch")
@@ -200,6 +201,7 @@ class ListMilkReports(ListView):
 @method_decorator(login_required(login_url='account_login'),name="dispatch")
 @method_decorator(verified_dairy_user,name="dispatch")
 class CreateMilkRercord(View):
+    CreateMilkRecordFormSet = formset_factory(CreateMilkRecordForm,extra=1,max_num=10)
     def get(self,request,*args,**kwargs):
             """
             user can add milk record if he is verified user
@@ -210,10 +212,10 @@ class CreateMilkRercord(View):
                 print("dairy===============",dairy)
                 # dairy =get_object_or_404(Dairy,name=kwargs['dairy'],user=self.request.user)
                 # if dairy.is_verified:
-                print(dairy.members.all())
-                form = CreateMilkRecordForm(dairy)
+                # print(dairy.members.all())
+                formset = self.CreateMilkRecordFormSet(form_kwargs={'dairy':dairy})
                     
-                return render(request,'dairyapp/milkrecord_create.html',{'form':form})
+                return render(request,'dairyapp/milkrecord_create.html',{'formset':formset})
                 # else:
                 #     print('inside else')
                 #     #  raise HttpResponseForbidden("Sorry,")
@@ -222,22 +224,48 @@ class CreateMilkRercord(View):
                  raise Http404
                  
             except Exception as e:
-                 raise e
+                 print(e)
         
         
     def post(self,request,*args,**kwargs):
             print("inside mike record post methos")
             dairy =get_object_or_404(Dairy,name=kwargs['dairy'],user=self.request.user)
-            form = CreateMilkRecordForm(dairy,request.POST)
-            if form.is_valid():
+            formset = self.CreateMilkRecordFormSet(request.POST,form_kwargs={'dairy':dairy})
+            if formset.is_valid():
                 print(request.POST)
                 print("inside valid data")
-                miklrecord = form.save(commit=False)
-                print("milkrec user",miklrecord.user)
-                miklrecord.dairy = dairy
-                miklrecord.save()
+                # milk_records  = formset.save(commit=False)
+
+                # bulk_data = []
+                for milk_record in formset.forms:
+                #     print("inside milkrecord formset for loop")
+                #     shift = milk_record.cleaned_data['shift']
+                #     user = milk_record.cleaned_data['user']
+                #     milk_weight = milk_record.cleaned_data['milk_weight']
+                #     date = milk_record.cleaned_data['date']
+                #     milk_fat = milk_record.cleaned_data['milk_fat']
+                #     dairy = dairy
+                #     obj = MilkRecord(
+                #          shift=shift,
+                #          user=user,
+                #          milk_weight=milk_weight,
+                #          milk_fat=milk_fat,
+                #          date=date,
+                #          dairy=dairy
+                #     )
+                #     bulk_data.append(obj)
+                    new_record = milk_record.save(commit=False)
+                    new_record.dairy = dairy
+                    new_record.save()
+                # print("bulk data=====",bulk_data)
+                # MilkRecord.objects.bulk_create(bulk_data)
+                # print("milkrec user",miklrecord.user)
+                # miklrecord.dairy = dairy
+                # miklrecord.save()
                 return HttpResponseRedirect(reverse("dairyapp:milk_record",kwargs={'dairy':self.kwargs['dairy']}))
-            return render(request,'dairyapp/milkrecord_create.html',{'form':form})
+            print("invalid form data++++++")
+            print(formset)
+            return render(request,'dairyapp/milkrecord_create.html',{'formset':formset})
 
     
 @method_decorator(login_required(login_url='account_login'),name="dispatch")
@@ -500,13 +528,28 @@ class SendMilkReportEmialView(View):
             avg_fat = morning_milk_records.aggregate(Avg("milk_fat")).get('milk_fat__avg')
             fat_rate = fat_rate
             total_price = fat_rate*milk_wg*avg_fat
+
+            nmilk_wg = night_milk_records.aggregate(Sum("milk_weight")).get('milk_weight__sum')
+            navg_fat = night_milk_records.aggregate(Avg("milk_fat")).get('milk_fat__avg')
+            nfat_rate = fat_rate
+
+            ntotal_price = fat_rate*nmilk_wg*navg_fat
+
+
             context = {
                 'total_milk_wieght':milk_wg,
                 'avg_fat': round(avg_fat,3),
                 'fat_rate':round(fat_rate,3),
+                'total_price':round(total_price,3),
+
+                'ntotal_milk_wieght':nmilk_wg,
+                'navg_fat': round(navg_fat,3),
+                'nfat_rate':round(nfat_rate,3),
+                'ntotal_price':round(ntotal_price,3),
+
+
                 'user':user,
                 'shift':'morning',
-                'total_price':round(total_price,3),
                 'morning_milk_records':morning_milk_records,
                 'night_milk_records': night_milk_records
             }

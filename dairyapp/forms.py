@@ -85,3 +85,13 @@ class CreateMilkRecordForm(forms.ModelForm):
             return self.cleaned_data['milk_fat']
         
         raise forms.ValidationError(_("Milk fat should be between %(low_range)d and %(high_range)d") % {'low_range':0,'high_range':20})
+
+# class CreateMilkRecordFormSet(forms.BaseFormSet):
+#     def __init__(self, dairy, *args, **kwargs):
+#         self.dairy = dairy
+#         super().__init__(*args, **kwargs)
+
+#     def get_form_kwargs(self, index):
+#         kwargs = super().get_form_kwargs(index)
+#         kwargs['dairy'] = self.dairy  # Pass 'dairy' as a keyword argument to the form constructor
+#         return kwargs

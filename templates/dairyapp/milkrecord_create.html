@@ -12,37 +12,41 @@
     <div class="row justify-content-center">
         <div class="col-md-6 col-sm-8 col-lg-5 col-12">
             <form method="POST" novalidate class="form-control shadow-lg p-sm-5">
+                {{ formset.management_form }}
                 {% csrf_token%}
-                {% if form.non_field_errors%}
-                {% for error in form.non_field_errors%}
-                <p class="alert alert-danger my-3 text-center">{{error}}</p>
-                {% endfor%}
-                {% endif%}
-                <div class="row text-center">
-                    <div class="col">
-                        <h2 class="text-info">{%trans 'Create Milk Record' %}</h2>
+                {%for form in formset%}
+                    {% if form.non_field_errors%}
+                    {% for error in form.non_field_errors%}
+                    <p class="alert alert-danger my-3 text-center">{{error}}</p>
+                    {% endfor%}
+                    {% endif%}
+                    <div class="row text-center">
+                        <div class="col">
+                            <h2 class="text-info">{%trans 'Create Milk Record' %}</h2>
+                        </div>
                     </div>
-                </div>
-                {% for field in form%}
-                <div class="row mt-80">
-                    <div class="col-12 p-1">
-                        {{field.label_tag}}
+                    {% for field in form%}
+                    <div class="row mt-80">
+                        <div class="col-12 p-1">
+                            {{field.label_tag}}
+                        </div>
+                        <div class="col-12 p-1">
+                            {{field}}
+                        </div>
+                        <div class="col-12">
+                            <small class="text-danger">{{field.errors|striptags}}</small>
+                        </div>
                     </div>
-                    <div class="col-12 p-1">
-                        {{field}}
-                    </div>
-                    <div class="col-12">
-                        <small class="text-danger">{{field.errors|striptags}}</small>
-                    </div>
-                </div>
+                    {%endfor%}
+                    
                 {%endfor%}
                 <div class="row justify-content-center">
-                    <div class="d-grid gap-2 my-2 col-12 col-sm-8 mx-auto">
-                        <button class="btn btn-primary" type="submit">{%trans 'Submit' %}</button>
+                        <div class="d-grid gap-2 my-2 col-12 col-sm-8 mx-auto">
+                            <button class="btn btn-primary" type="submit">{%trans 'Submit' %}</button>
+                        </div>
+                    
+                    
                     </div>
-
-
-                </div>
 
             </form>
         </div>
@@ -73,16 +77,6 @@
             $('#id_date').nepaliDatePicker();
         });
         */
-
-
-
-
-
-
-
-
-
-
 
 
 

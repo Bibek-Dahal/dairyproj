@@ -6,7 +6,7 @@ from django.utils import timezone
 
 
 class MyUserManager(BaseUserManager):
-    def create_user(self,email,phone_number,first_name,last_name, password=None,**extra_fields):
+    def create_user(self,email,phone_number,first_name,last_name, password=None,middle_name=None):
         """
         Creates and saves a User with the given email, date of
         birth and password.
@@ -14,17 +14,26 @@ class MyUserManager(BaseUserManager):
         print("++++++++++++")
         print("create user called")
         print(phone_number)
+        
+
+
         if not phone_number:
-            raise ValueError(_("Users must have an phone number"))
+            raise ValueError(_("User must have phone number set."))
         
         if not first_name:
-            raise ValueError(_("Users must have an first name"))
+            raise ValueError(_("User must have first name set."))
         
         if not last_name:
-            raise ValueError("Users must have an last name")
+            raise ValueError("User must have last name set.")
         
         if not email:
-            raise ValueError(_("Users must have an last name"))
+            raise ValueError(_("User must have email set."))
+        
+        userobj = User.objects.filter(email=email,phone_number=phone_number).exists()
+        
+        if userobj:
+            print("======inside user obj")
+            raise ValueError(_("User with email or phone number already exists."))
         
         
         # user = None
@@ -36,8 +45,8 @@ class MyUserManager(BaseUserManager):
             last_name=last_name,
             phone_number=phone_number,
             password=password,
-            middle_name = extra_fields.get('midle_name'),
-            address = extra_fields.get('address')
+            middle_name = middle_name
+            
         )
         # else:
         #     user = self.model(
@@ -53,20 +62,22 @@ class MyUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self,email,phone_number,first_name,last_name, password,**extra_fields):
+    def create_superuser(self,email,phone_number,first_name,last_name, password,middle_name=None):
         """
         Creates and saves a superuser with the given email, date of
         birth and password.
         """
         print("create sup called")
         print("email")
+        
         user = self.create_user(
             email = email,
             phone_number=phone_number,
+            middle_name=middle_name,
             first_name=first_name,
             last_name=last_name,
-            password=password,
-            **extra_fields
+            password=password
+            
             
         )
         user.is_superuser = True
