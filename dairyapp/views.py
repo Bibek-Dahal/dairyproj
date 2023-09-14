@@ -201,7 +201,8 @@ class ListMilkReports(ListView):
 @method_decorator(login_required(login_url='account_login'),name="dispatch")
 @method_decorator(verified_dairy_user,name="dispatch")
 class CreateMilkRercord(View):
-    CreateMilkRecordFormSet = formset_factory(CreateMilkRecordForm,extra=1,max_num=10)
+    
+    CreateMilkRecordFormSet = formset_factory(CreateMilkRecordForm,max_num=10)
     def get(self,request,*args,**kwargs):
             """
             user can add milk record if he is verified user
@@ -209,28 +210,35 @@ class CreateMilkRercord(View):
             try:
                 print(kwargs['dairy'])
                 dairy = Dairy.objects.get(name=kwargs['dairy'],user=self.request.user)
+                user = User.objects.get(id=kwargs['id'])
                 print("dairy===============",dairy)
-                # dairy =get_object_or_404(Dairy,name=kwargs['dairy'],user=self.request.user)
-                # if dairy.is_verified:
-                # print(dairy.members.all())
-                formset = self.CreateMilkRecordFormSet(form_kwargs={'dairy':dairy})
+                
+                formset = self.CreateMilkRecordFormSet(form_kwargs={'dairy':dairy,'user':user,})
+
+                # formset = self.CreateMilkRecordFormSet(initial=[
+                #     {
+                #         'user':user,
+                #         'dairy':dairy
+                #     }
+                # ])
                     
-                return render(request,'dairyapp/milkrecord_create.html',{'formset':formset})
+                return render(request,'dairyapp/milkrecord_create.html',{'formset':formset,'user':user})
                 # else:
                 #     print('inside else')
                 #     #  raise HttpResponseForbidden("Sorry,")
                 #     raise PermissionDenied()
             except Dairy.DoesNotExist:
-                 raise Http404
+                raise Http404
                  
-            except Exception as e:
-                 print(e)
+            except User.DoesNotExist:
+                raise Http404
         
         
     def post(self,request,*args,**kwargs):
             print("inside mike record post methos")
             dairy =get_object_or_404(Dairy,name=kwargs['dairy'],user=self.request.user)
-            formset = self.CreateMilkRecordFormSet(request.POST,form_kwargs={'dairy':dairy})
+            user = get_object_or_404(User,id=kwargs['id'])
+            formset = self.CreateMilkRecordFormSet(request.POST,form_kwargs={'dairy':dairy,'user':user})
             if formset.is_valid():
                 print(request.POST)
                 print("inside valid data")
@@ -262,7 +270,8 @@ class CreateMilkRercord(View):
                 # print("milkrec user",miklrecord.user)
                 # miklrecord.dairy = dairy
                 # miklrecord.save()
-                return HttpResponseRedirect(reverse("dairyapp:milk_record",kwargs={'dairy':self.kwargs['dairy']}))
+                messages.success(request, _("Record added successfully"))
+                return HttpResponseRedirect(reverse("dairyapp:member_milk_record",kwargs={'dairy':self.kwargs['dairy'],'id':self.kwargs['id']}))
             print("invalid form data++++++")
             print(formset)
             return render(request,'dairyapp/milkrecord_create.html',{'formset':formset})
@@ -489,12 +498,18 @@ class SendMilkReportEmialView(View):
         end_date = request.GET.get('end_date')
         shift = request.GET.get('shift')
         user_id = request.GET.get('id')
+
+        
         
 
              
         global user
         global dairy
         global fat_rate
+
+        if not start_date and not end_date:
+            messages.error(request,_("Please select start date and end date"))
+            return redirect('dairyapp:member_milk_record',dairy=dairy_name,id=user_id)
 
         try:
             try:

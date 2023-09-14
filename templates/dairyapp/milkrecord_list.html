@@ -4,7 +4,7 @@
 {%block table_data%}
 <table class="table">
 
-    <a class="float-end nav-link " href="{%url  'dairyapp:create_milk_record' dairy %}">Add Milk Record</a>
+    <a class="float-end nav-link " href="{%url  'dairyapp:create_milk_record' dairy=dairy id=user.id %}">Add Milk Record</a>
     <thead>
         <tr>
             <th scope="col">{%trans 'Id' %}</th>

@@ -55,8 +55,8 @@ import datetime
 class CreateMilkRecordForm(forms.ModelForm):
     shiftinfo = getShift()
     # if 
-    user = forms.ModelChoiceField(queryset=None,widget=forms.Select(attrs={"class":"form-select"}))
-    dairy = forms.ModelChoiceField(queryset=None,initial=2,widget=forms.Select(attrs={"class":"form-select"}))
+    user = forms.ModelChoiceField(queryset=None,initial=1,widget=forms.Select(attrs={"class":"form-select"}))
+    dairy = forms.ModelChoiceField(queryset=None,initial=1,widget=forms.HiddenInput(attrs={"class":"form-select"}))
     date = forms.DateField(initial=datetime.datetime.now(),widget=DateInput(attrs={"class":"form-control date-picker","placeholder":"dd-mm-yyyy"},format="%Y-%m-%d"))
     shift = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-select"}),initial=shiftinfo,choices=MilkRecord.shift_choices)
     # input_formats=['%Y%m%d']
@@ -69,10 +69,10 @@ class CreateMilkRecordForm(forms.ModelForm):
             'milk_weight':forms.NumberInput(attrs={"class":"form-control"}),
             'milk_fat':forms.NumberInput(attrs={"class":"form-control","min":"0"}),
         }
-    def __init__(self,dairy,*args, **kwargs):
+    def __init__(self,dairy,user,*args, **kwargs):
         super().__init__(*args, **kwargs)
         print("------------")
-        self.fields["user"].queryset = dairy.members.all()
+        self.fields["user"].queryset = dairy.members.all().filter(id=user.id)
         self.fields["dairy"].queryset = Dairy.objects.filter(id=dairy.id)
         print("last of init")
     
