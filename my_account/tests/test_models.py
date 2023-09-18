@@ -1,8 +1,6 @@
 from django.test import TestCase
 from my_account.models import User
 # from my_account.models import User
-from django.utils.translation import gettext_lazy as _
-from django.test import TestCase
 from my_account.models import User
 
 class TestUserModel(TestCase):

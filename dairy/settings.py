@@ -183,7 +183,7 @@ ACCOUNT_FORMS = {
 LOCALE_PATHS = [
     BASE_DIR/'locale',
 ]
-LANGUAGE_CODE = 'ne'
+# LANGUAGE_CODE = 'ne'
 LANGUAGES = [
     ("ne", _("Nepali")),
     ("en", _("English")),

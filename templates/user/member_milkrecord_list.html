@@ -59,13 +59,7 @@
 
 </div>
 <table class="table">
-    <a role="button" id="send-email-report-form" href="{%url 'dairyapp:milk_report_email'%}">
-        send milk report
-    </a>
 
-
-
-    <a class="float-end nav-link " href="{%url  'dairyapp:create_milk_record' dairy=dairy id=id %}">Add Milk Record</a>
     <thead>
         <tr>
             <th scope="col">{% trans 'Id' %}</th>
@@ -75,7 +69,7 @@
             <th scope="col">{% trans 'Milk Weight' %}</th>
             <th scope="col">{% trans 'Milk Fat' %}</th>
             <th scope="col">{% trans 'Date' %}</th>
-            <th scope="col">{% trans 'Actions' %}</th>
+            
 
         </tr>
     </thead>
@@ -89,15 +83,7 @@
             <td>{{milkrecord.milk_weight}}</td>
             <td>{{milkrecord.milk_fat}}</td>
             <td>{{milkrecord.date}}</td>
-            <td>
-                <form action="{% url 'dairyapp:update_milk_record' id=milkrecord.id dairy=dairy%}" class="d-inline">
-                    <button type="submit" class="btn btn-danger">{%trans 'edit' %}</button>
-                </form>
-                <form action="#" method="POST" class="d-inline">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger">{%trans 'delete'%}</button>
-                </form>
-            </td>
+            
 
         </tr>
 
@@ -131,7 +117,7 @@
 {{member.first_name}}|{{member.last_name}}|{{member.phone_number}}
 {%endfor%}
 
-    
+
 <script>
     // Function to construct the query string with the provided filter parameters
     function constructQueryString() {
@@ -172,7 +158,7 @@
         const queryString = constructQueryString();
         console.log(queryString)
 
-        location.href = "{% url 'dairyapp:member_milk_record' id=id dairy=dairy%}?" + queryString
+        location.href = "{% url 'user:member_milk_record' dairy=dairy%}?" + queryString
         // Perform the GET request using JavaScript's fetch API or any other method you prefer
         // Replace 'YOUR_API_ENDPOINT' with the actual endpoint URL
         /*fetch(`/api/data/?${queryString}`)

@@ -15,5 +15,6 @@ urlpatterns = [
 
 urlpatterns += i18n_patterns(
     path('accounts/', include('allauth.urls')),
-    path('',include("dairyapp.urls",namespace="dairyapp")),
+    path('dashboard/',include("dairyapp.urls",namespace="dairyapp")),
+    path('',include('user.urls',namespace='user'))
 )

@@ -76,6 +76,8 @@ class CreateMilkRecordForm(forms.ModelForm):
         self.fields["dairy"].queryset = Dairy.objects.filter(id=dairy.id)
         print("last of init")
     
+    
+
     def clean_milk_fat(self):
         value = float(self.cleaned_data['milk_fat'])
         lower_bound = 0

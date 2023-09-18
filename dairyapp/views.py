@@ -4,6 +4,7 @@ from django.shortcuts import render,redirect
 from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.http import Http404, HttpResponse, HttpResponseRedirect,HttpResponseForbidden,HttpResponseNotFound
+from dairyapp.mixins import PaginationMixin
 from dairyapp.models import *
 from .forms import *
 from django.views.generic import ListView,DetailView
@@ -15,10 +16,8 @@ from django.contrib.auth import get_user_model
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-import datetime
 from django.db.models import Avg,Sum
 from .decorators import verified_dairy_user
-from django.core.exceptions import PermissionDenied
 import uuid
 import requests as req
 from django.views.generic import View
@@ -316,11 +315,11 @@ class UpdateMilkRercord(View):
                 return HttpResponseRedirect(reverse("dairyapp:milk_record",kwargs={'dairy':self.kwargs['dairy']}))
             return render(request,'dairyapp/milkrecord_edit.html',{'form':form})
 
-    
-   
-@method_decorator(login_required(login_url='account_login'),name="dispatch")
-@method_decorator(verified_dairy_user,name="dispatch")
-class ListMemberMilkRecord(ListView):
+
+
+
+
+class ParentListMemberMilkRecord(ListView):
     model = MilkRecord
     context_object_name = "milkrecords"
     template_name = "dairyapp/member_milkrecord_list.html"
@@ -359,7 +358,7 @@ class ListMemberMilkRecord(ListView):
         end_date = request.GET.get('end_date')
         print("end_date",end_date)
         
-        # return super().get_queryset()
+        # return super().get_queryset() 
         user = get_object_or_404(User,id=self.kwargs['id'])
         dairy = get_object_or_404(Dairy,name=self.kwargs['dairy'])
         queryset  = MilkRecord.objects.all()
@@ -441,6 +440,13 @@ class ListMemberMilkRecord(ListView):
 
              
         return queryset.filter(filters)
+   
+@method_decorator(login_required(login_url='account_login'),name="dispatch")
+@method_decorator(verified_dairy_user,name="dispatch")
+class ListMemberMilkRecord(PaginationMixin,ParentListMemberMilkRecord):
+    paginate_by = 16
+    
+    
     
 
 class VerifyEsewa(View):

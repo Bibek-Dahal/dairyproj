@@ -1,14 +1,12 @@
 from django.forms import CharField, ValidationError
 from django import forms
-from django.contrib.auth.forms import UserCreationForm,UserChangeForm
 from django.utils.translation import gettext_lazy as _
 import re
 from my_account.models import User
-from django.core.validators import RegexValidator
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from allauth.account.forms import SignupForm,LoginForm,ChangePasswordForm,ResetPasswordKeyForm,ResetPasswordForm,SetPasswordForm,AddEmailForm
 from allauth.account import app_settings
-from django.contrib.auth.forms import UserCreationForm
+
 # from django.contrib.auth.forms import UserCreationForm
 
 
@@ -73,18 +71,18 @@ class MyLoginForm(LoginForm):
 
 class MyUserCreationForm(SignupForm):
     
-    email = forms.EmailField(
-        label= _("email"),
-        widget=forms.TextInput(
+    # email = forms.EmailField(
+    #     label= _("email"),
+    #     widget=forms.TextInput(
             
-            attrs={
-                "type": "email",
-                "placeholder": _("E-mail address"),
-                "autocomplete": "email",
-                "class":"form-control"
-            }
-        )
-    )
+    #         attrs={
+    #             "type": "email",
+    #             "placeholder": _("E-mail address"),
+    #             "autocomplete": "email",
+    #             "class":"form-control"
+    #         }
+    #     )
+    # )
     first_name = CharField(max_length=20,min_length=2,widget=forms.TextInput(attrs={'class':'form-control','placeholder':_("first name")}))
     middle_name = CharField(required=False,max_length=20,min_length=2,widget=forms.TextInput(attrs={'class':'form-control','placeholder':_("middle name")}))
     last_name = CharField(label=_("Last name"),max_length=20,min_length=2,widget=forms.TextInput(attrs={'class':'form-control','placeholder':_("last name")}))
@@ -95,7 +93,7 @@ class MyUserCreationForm(SignupForm):
     fields, plus a repeated password."""
     def __init__(self, *args, **kwargs):
         super(MyUserCreationForm, self).__init__(*args, **kwargs)
-        
+        self.fields['email'].widget.attrs.update({'class':'form-control'})
         self.fields['password1'].widget.attrs.update({'autofocous':'autofocous','class':'form-control'}) 
         # = forms.PasswordInput(render_value=False,attrs={'class': 'form-control'})
         # self.field_order = ['email', 'first_name', 'middle_name','last_name','password1','password2'] 

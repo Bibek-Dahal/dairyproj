@@ -11,12 +11,7 @@ class MyUserManager(BaseUserManager):
         Creates and saves a User with the given email, date of
         birth and password.
         """
-        print("++++++++++++")
-        print("create user called")
-        print(phone_number)
         
-
-
         if not phone_number:
             raise ValueError(_("User must have phone number set."))
         
@@ -32,7 +27,7 @@ class MyUserManager(BaseUserManager):
         userobj = User.objects.filter(email=email,phone_number=phone_number).exists()
         
         if userobj:
-            print("======inside user obj")
+            
             raise ValueError(_("User with email or phone number already exists."))
         
         

@@ -3,7 +3,15 @@ import re
 from django.forms import ValidationError
 from django.utils.translation import gettext_lazy as _
 
+from my_account.models import User
+
 class MyAccountAdapter(DefaultAccountAdapter):
+    def clean_email(self, email):
+        email =  super().clean_email(email)
+        if User.objects.filter(email=email).exists():
+            raise ValidationError(_('User with email address already exists.'))
+        return email
+
     def clean_password(self, password, user=None):
         password =  super().clean_password(password, user)
         reg = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{6,20}$"
