@@ -34,6 +34,7 @@ class HomeView(ListView):
 class MemberMilkRecord(ListView):
     context_object_name = "milkrecords"
     template_name = "user/member_milkrecord_list.html"
+    paginate_by = 16
 
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
@@ -48,7 +49,8 @@ class MemberMilkRecord(ListView):
         context['total_price'] = self.kwargs['total_price']
         dairy = get_object_or_404(Dairy,name=self.kwargs['dairy'])
         context['members'] = dairy.members.all()
-        
+        context['total_milk_sold'] = MilkRecord.objects.aggregate(Sum('milk_weight'))
+        print('======',context['total_milk_sold'])
 
         
         return context

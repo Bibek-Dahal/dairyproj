@@ -4,6 +4,7 @@ from django.urls import reverse
 from .forms import *
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 from allauth.account.views import SignupView
 
