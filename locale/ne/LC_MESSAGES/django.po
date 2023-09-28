@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-05 16:24+0000\n"
+"POT-Creation-Date: 2023-09-20 15:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,72 +18,129 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: dairyapp/forms.py:34
+#: dairy/settings.py:188
+msgid "Nepali"
+msgstr "नेपाली"
+
+#: dairy/settings.py:189
+msgid "English"
+msgstr "अंग्रेजी"
+
+#: dairyapp/forms.py:37
 msgid "fat rate should be positive"
+msgstr "फ्याट दर सकारात्मक हुनुपर्छ"
+
+#: dairyapp/forms.py:43 dairyapp/models.py:14
+msgid "members"
+msgstr "सदस्यहरू"
+
+#: dairyapp/forms.py:59 dairyapp/models.py:9 dairyapp/models.py:50
+msgid "user"
+msgstr "प्रयोगकर्ता"
+
+#: dairyapp/forms.py:60 dairyapp/models.py:23 dairyapp/models.py:32
+#: dairyapp/models.py:49 dairyapp/models.py:68
+msgid "dairy"
+msgstr "डेयरी"
+
+#: dairyapp/forms.py:61 dairyapp/models.py:54
+msgid "date"
+msgstr "मिति"
+
+#: dairyapp/forms.py:62 dairyapp/models.py:51 dairyapp/models.py:69
+msgid "shift"
+msgstr "शिफ्ट"
+
+#: dairyapp/forms.py:90 dairyapp/forms.py:124
+#, python-format
+msgid "Milk fat should be between %(low_range)d and %(high_range)d"
 msgstr ""
 
 #: dairyapp/models.py:8
 msgid "name"
-msgstr ""
-
-#: dairyapp/models.py:9 dairyapp/models.py:45
-msgid "user"
-msgstr ""
+msgstr "नाम"
 
 #: dairyapp/models.py:10
 msgid "location"
-msgstr ""
+msgstr "स्थान"
 
 #: dairyapp/models.py:11
 msgid "verified"
-msgstr ""
+msgstr "प्रमाणित"
 
-#: dairyapp/models.py:12 dairyapp/models.py:33 dairyapp/models.py:50
+#: dairyapp/models.py:12 dairyapp/models.py:34 dairyapp/models.py:55
+#: dairyapp/models.py:77
 msgid "created at"
 msgstr ""
 
-#: dairyapp/models.py:13 dairyapp/models.py:34 dairyapp/models.py:51
+#: dairyapp/models.py:13 dairyapp/models.py:35 dairyapp/models.py:56
+#: dairyapp/models.py:78
 msgid "updated at"
-msgstr ""
-
-#: dairyapp/models.py:14 dairyapp/models.py:23 dairyapp/models.py:32
-#: dairyapp/models.py:44
-msgid "dairy"
 msgstr ""
 
 #: dairyapp/models.py:24
 msgid "dairies"
-msgstr ""
+msgstr "डेयरीहरू"
 
-#: dairyapp/models.py:31
+#: dairyapp/models.py:31 dairyapp/models.py:70
 msgid "fat rate"
-msgstr ""
+msgstr "फ्याट दर"
 
-#: dairyapp/models.py:41 templates/dairyapp/member_milkrecord_list.html:19
-#: templates/dairyapp/member_milkrecord_list.html:26
-msgid "morning"
-msgstr ""
-
-#: dairyapp/models.py:42 templates/dairyapp/member_milkrecord_list.html:37
-#: templates/dairyapp/member_milkrecord_list.html:44
-msgid "night"
-msgstr ""
-
-#: dairyapp/models.py:46
-msgid "shift"
-msgstr ""
-
-#: dairyapp/models.py:47
+#: dairyapp/models.py:52 dairyapp/models.py:74
 msgid "milk weight"
-msgstr ""
+msgstr "दूधको वजन"
 
-#: dairyapp/models.py:48
+#: dairyapp/models.py:53
 msgid "milk fat"
-msgstr ""
+msgstr "दूधको फ्याट"
 
-#: dairyapp/models.py:49
-msgid "date"
-msgstr ""
+#: dairyapp/models.py:72
+msgid "Start date"
+msgstr "सुरू मिति"
+
+#: dairyapp/models.py:73
+msgid "End date"
+msgstr "अन्त्य मिति"
+
+#: dairyapp/models.py:75
+msgid "Avg fat"
+msgstr "औसत फ्याट"
+
+#: dairyapp/models.py:76
+msgid "Total amount"
+msgstr "कुल रकम"
+
+#: dairyapp/views.py:273
+msgid "Record added successfully"
+msgstr "रेकर्ड सफलतापूर्वक थपियो"
+
+#: dairyapp/views.py:452 dairyapp/views.py:606 user/views.py:161
+msgid "Cannot apply filter witin date range. Multiple fat rate exists."
+msgstr "मिति दायरा भित्र फिल्टर लागू गर्न सकिँदैन। धेरै फ्याट दर अवस्थित छ।"
+
+#: dairyapp/views.py:479 dairyapp/views.py:636 user/views.py:177
+msgid "Fat rate with in specified date range is not defined."
+msgstr "निर्दिष्ट मिति दायरा संग फ्याट दर परिभाषित गरिएको छैन।"
+
+#: dairyapp/views.py:571
+msgid "Please select start date and end date"
+msgstr "कृपया सुरु मिति र अन्त्य मिति चयन गर्नुहोस्"
+
+#: dairyapp/views.py:578
+msgid "Sorry,dairy with username doesnot exists."
+msgstr "माफ गर्नुहोस्, प्रयोगकर्ता नाम भएको डेयरी अवस्थित छैन।"
+
+#: dairyapp/views.py:655
+msgid "Sorry,invalid userid"
+msgstr "माफ गर्नुहोस्, अमान्य प्रयोगकर्ता आईडी"
+
+#: dairyapp/views.py:661
+msgid "Please select valid information before genarating milk report"
+msgstr "कृपया दूध रिपोर्ट उत्पन्न गर्नु अघि मान्य जानकारी चयन गर्नुहोस्"
+
+#: dairyapp/views.py:752
+msgid "milk report email sent"
+msgstr "दूध रेकर्डको रिपोर्ट इमेलमा पठाइयो"
 
 #: env/lib/python3.10/site-packages/django/contrib/messages/apps.py:15
 msgid "Messages"
@@ -1292,7 +1349,13 @@ msgstr ""
 msgid "Connect, get help, or contribute"
 msgstr ""
 
-#: my_account/adapters.py:13
+#: my_account/adapters.py:12
+#, fuzzy
+#| msgid "User with phone numbre already exists"
+msgid "User with email address already exists."
+msgstr "फोन नम्बर भएको प्रयोगकर्ता पहिले नै अवस्थित छ"
+
+#: my_account/adapters.py:21
 msgid ""
 "Password must contain at least one digit, special characrers and uppercase "
 "letter"
@@ -1306,7 +1369,7 @@ msgstr "अनुमतिहरू"
 msgid "Important dates"
 msgstr "महत्त्वपूर्ण मितिहरू"
 
-#: my_account/admin.py:45 my_account/forms.py:76 my_account/models.py:82
+#: my_account/admin.py:45
 msgid "email"
 msgstr "इमेल"
 
@@ -1314,103 +1377,101 @@ msgstr "इमेल"
 msgid "phone_number"
 msgstr "फोन नम्बर"
 
-#: my_account/forms.py:81
-msgid "E-mail address"
-msgstr "इ - मेल ठेगाना"
+#: my_account/forms.py:54
+msgid "Current Password"
+msgstr "वर्तमान पासवर्ड"
 
-#: my_account/forms.py:87
-#, fuzzy
-#| msgid "first name"
+#: my_account/forms.py:55
+msgid "New Password"
+msgstr "नया पासवर्ड"
+
+#: my_account/forms.py:56
+msgid "New Password (again)"
+msgstr "नयाँ पासवर्ड (फेरि)"
+
+#: my_account/forms.py:89 my_account/models.py:85
 msgid "First name"
 msgstr "पहिलो नाम"
 
-#: my_account/forms.py:87 my_account/models.py:79
-msgid "first name"
-msgstr "पहिलो नाम"
-
-#: my_account/forms.py:88
-#, fuzzy
-#| msgid "middle name"
-msgid "Middle Name"
+#: my_account/forms.py:90 my_account/models.py:86
+msgid "Middle name"
 msgstr "बीचको नाम"
 
-#: my_account/forms.py:88 my_account/models.py:80
-msgid "middle name"
-msgstr "बीचको नाम"
-
-#: my_account/forms.py:89 my_account/forms.py:90
-#, fuzzy
-#| msgid "last name"
+#: my_account/forms.py:91 my_account/models.py:87
 msgid "Last name"
 msgstr "थर"
 
-#: my_account/forms.py:89 my_account/models.py:81
-msgid "last name"
-msgstr "थर"
+#: my_account/forms.py:92 my_account/models.py:89
+msgid "Phone number"
+msgstr "फोन नम्बर"
 
-#: my_account/forms.py:114
+#: my_account/forms.py:116
 msgid "Password"
 msgstr "पासवर्ड"
 
-#: my_account/forms.py:116
+#: my_account/forms.py:118
 msgid "Password confirmation"
 msgstr "पासवर्ड पुष्टिकरण"
 
-#: my_account/forms.py:163 my_account/forms.py:209
+#: my_account/forms.py:165 my_account/forms.py:211
 msgid "Please enter a valid 10-digit phone number."
 msgstr "कृपया मान्य १० अंकको फोन नम्बर प्रविष्ट गर्नुहोस्।"
 
-#: my_account/forms.py:166
+#: my_account/forms.py:168
 msgid "User with phone numbre already exists"
 msgstr "फोन नम्बर भएको प्रयोगकर्ता पहिले नै अवस्थित छ"
 
-#: my_account/models.py:18
-msgid "Users must have an phone number"
+#: my_account/models.py:16
+msgid "User must have phone number set."
 msgstr "प्रयोगकर्ताहरूसँग फोन नम्बर हुनुपर्छ"
 
-#: my_account/models.py:21
-msgid "Users must have an first name"
+#: my_account/models.py:19
+msgid "User must have first name set."
 msgstr "प्रयोगकर्ताहरूको पहिलो नाम हुनुपर्छ"
 
-#: my_account/models.py:27
-msgid "Users must have an last name"
+#: my_account/models.py:25
+msgid "User must have email set."
 msgstr "प्रयोगकर्ताहरूको अन्तिम नाम हुनुपर्छ"
 
-#: my_account/models.py:83
-msgid "phone number"
-msgstr "फोन नम्बर"
-
-#: my_account/models.py:84
-msgid "email verified"
-msgstr "इमेल प्रमाणित"
-
-#: my_account/models.py:85
-msgid "address"
-msgstr "ठेगाना"
-
-#: my_account/models.py:86
-msgid "has verified dairy"
-msgstr "डेरी प्रमाणित गरेको छ"
+#: my_account/models.py:31
+msgid "User with email or phone number already exists."
+msgstr "फोन नम्बर भएको प्रयोगकर्ता पहिले नै अवस्थित छ"
 
 #: my_account/models.py:88
+msgid "Email"
+msgstr "इमेल"
+
+#: my_account/models.py:90
+msgid "Email verified"
+msgstr "इमेल प्रमाणित"
+
+#: my_account/models.py:91
+msgid "Address"
+msgstr "ठेगाना"
+
+#: my_account/models.py:92
+msgid "Has verified dairy"
+msgstr "डेरी प्रमाणित गरेको छ"
+
+#: my_account/models.py:94
 msgid "staff status"
 msgstr "कर्मचारी स्थिति"
 
-#: my_account/models.py:90
+#: my_account/models.py:96
 msgid "Designates whether the user can log into this admin site."
 msgstr "प्रयोगकर्ताले यो प्रशासक साइटमा लग इन गर्न सक्छ कि भनेर निर्दिष्ट गर्दछ।"
 
-#: my_account/models.py:93
+#: my_account/models.py:99
 msgid "active"
 msgstr "सक्रिय"
 
-#: my_account/models.py:96
+#: my_account/models.py:102
 msgid ""
 "Designates whether this user should be treated as active. Unselect this "
 "instead of deleting accounts."
 msgstr ""
 
-#: my_account/models.py:100
+#: my_account/models.py:106
 msgid "date joined"
 msgstr "सामेल भएको मिति"
 
@@ -1538,10 +1599,11 @@ msgid "Password Reset"
 msgstr "पासवर्ड रिसेट"
 
 #: templates/account/password_reset.html:52
+#: templates/dairyapp/create_fat.html:38
 #: templates/dairyapp/dairy_create_form.html:39
 #: templates/dairyapp/dairy_edit_form.html:38
 #: templates/dairyapp/edit_fat.html:38
-#: templates/dairyapp/milkrecord_create.html:41
+#: templates/dairyapp/milkrecord_create.html:51
 #: templates/dairyapp/milkrecord_edit.html:38
 msgid "Submit"
 msgstr "पेश गर्नुहोस्"
@@ -1627,7 +1689,7 @@ msgid ""
 "    contact us if you do not receive it within a few minutes."
 msgstr ""
 
-#: templates/base.html:67
+#: templates/base.html:70
 msgid "Welcome"
 msgstr "स्वागत छ"
 
@@ -1636,6 +1698,7 @@ msgid "Create Fat"
 msgstr "फ्याट सिर्जना गर्नुहोस्"
 
 #: templates/dairyapp/dairy_create_form.html:4
+#: templates/dairyapp/list_dairy_members.html:4
 msgid "Create Dairy"
 msgstr "डेयरी बनाउनुहोस्"
 
@@ -1664,36 +1727,94 @@ msgstr "फ्याट सम्पादन गर्नुहोस्"
 msgid "Update Fat"
 msgstr "फ्याट अपडेट गर्नुहोस्"
 
-#: templates/dairyapp/fatrate_list.html:2
-msgid "fatrate list"
-msgstr "फ्याट सूची"
-
-#: templates/dairyapp/fatrate_list.html:8 templates/dairyapp/index.html:10
+#: templates/dairyapp/email/report.html:24
+#: templates/dairyapp/email/report.html:84
+#: templates/dairyapp/fatrate_list.html:9 templates/dairyapp/index.html:10
+#: templates/dairyapp/member_milkrecord_list.html:78
 #: templates/dairyapp/milkrecord_list.html:10
+#: templates/user/member_milkrecord_list.html:70
 msgid "Id"
 msgstr "आईडी"
 
-#: templates/dairyapp/fatrate_list.html:9
-msgid "Fat Rate"
-msgstr "फ्याटरेट"
-
-#: templates/dairyapp/fatrate_list.html:10
+#: templates/dairyapp/email/report.html:25
+#: templates/dairyapp/email/report.html:85
+#: templates/dairyapp/fatrate_list.html:11
+#: templates/dairyapp/member_milkrecord_list.html:79
 #: templates/dairyapp/milkrecord_list.html:11
+#: templates/user/member_milkrecord_list.html:71
 msgid "Dairy"
 msgstr "डेयरी"
 
-#: templates/dairyapp/fatrate_list.html:11 templates/dairyapp/index.html:16
+#: templates/dairyapp/email/report.html:26
+#: templates/dairyapp/email/report.html:86 templates/dairyapp/index.html:12
+#: templates/dairyapp/member_milkrecord_list.html:80
+#: templates/dairyapp/milkrecord_list.html:12
+#: templates/user/member_milkrecord_list.html:72
+msgid "User"
+msgstr "प्रयोगकर्ता"
+
+#: templates/dairyapp/email/report.html:27
+#: templates/dairyapp/email/report.html:87
+#: templates/dairyapp/member_milkrecord_list.html:81
+#: templates/dairyapp/milkrecord_list.html:13
+#: templates/user/member_milkrecord_list.html:73
+msgid "Shift"
+msgstr "शिफ्ट"
+
+#: templates/dairyapp/email/report.html:28
+#: templates/dairyapp/email/report.html:88
+#: templates/dairyapp/member_milkrecord_list.html:82
+#: templates/dairyapp/milkrecord_list.html:14
+#: templates/user/member_milkrecord_list.html:74
+msgid "Milk Weight"
+msgstr "दूधको वजन"
+
+#: templates/dairyapp/email/report.html:29
+#: templates/dairyapp/email/report.html:89
+#: templates/dairyapp/member_milkrecord_list.html:83
+#: templates/dairyapp/milkrecord_list.html:15
+#: templates/user/member_milkrecord_list.html:75
+msgid "Milk Fat"
+msgstr "दूधको फ्याट"
+
+#: templates/dairyapp/email/report.html:30
+#: templates/dairyapp/email/report.html:90
+#: templates/dairyapp/member_milkrecord_list.html:24
+#: templates/dairyapp/member_milkrecord_list.html:84
+#: templates/dairyapp/milkrecord_list.html:16
+#: templates/user/member_milkrecord_list.html:24
+#: templates/user/member_milkrecord_list.html:76
+msgid "Date"
+msgstr "मिति"
+
+#: templates/dairyapp/email/report.html:50
+#: templates/dairyapp/email/report.html:110
+#: templates/dairyapp/member_milkrecord_list.html:114
+#: templates/user/member_milkrecord_list.html:97
+msgid "Details"
+msgstr "विवरणहरू"
+
+#: templates/dairyapp/fatrate_list.html:3
+msgid "fatrate list"
+msgstr "फ्याट सूची"
+
+#: templates/dairyapp/fatrate_list.html:10
+msgid "Fat Rate"
+msgstr "फ्याटरेट"
+
+#: templates/dairyapp/fatrate_list.html:12 templates/dairyapp/index.html:17
+#: templates/dairyapp/member_milkrecord_list.html:85
 msgid "Actions"
 msgstr "कार्यहरू"
 
-#: templates/dairyapp/fatrate_list.html:23 templates/dairyapp/index.html:31
-#: templates/dairyapp/member_milkrecord_list.html:78
+#: templates/dairyapp/fatrate_list.html:24 templates/dairyapp/index.html:33
+#: templates/dairyapp/member_milkrecord_list.html:102
 #: templates/dairyapp/milkrecord_list.html:34
 msgid "edit"
 msgstr "सम्पादन"
 
-#: templates/dairyapp/fatrate_list.html:27
-#: templates/dairyapp/member_milkrecord_list.html:82
+#: templates/dairyapp/fatrate_list.html:28
+#: templates/dairyapp/member_milkrecord_list.html:106
 #: templates/dairyapp/milkrecord_list.html:39
 msgid "delete"
 msgstr "मेट्नुहोस्"
@@ -1706,10 +1827,6 @@ msgstr "गृहपृष्ठ"
 msgid "Name"
 msgstr "नाम"
 
-#: templates/dairyapp/index.html:12 templates/dairyapp/milkrecord_list.html:12
-msgid "User"
-msgstr "प्रयोगकर्ता"
-
 #: templates/dairyapp/index.html:13
 msgid "Location"
 msgstr "स्थान"
@@ -1718,56 +1835,69 @@ msgstr "स्थान"
 msgid "List Records"
 msgstr "रेकर्डहरू सूची गर्नुहोस्"
 
-#: templates/dairyapp/index.html:28
+#: templates/dairyapp/index.html:16
+msgid "List Members"
+msgstr "सूची सदस्यहरू"
+
+#: templates/dairyapp/index.html:29 templates/dairyapp/index.html:30
 msgid "view"
 msgstr "हेर्नुहोस्"
 
 #: templates/dairyapp/member_milkrecord_list.html:3
+#: templates/user/member_milkrecord_list.html:3
 msgid "Milk Record"
 msgstr "दूध रेकर्ड"
 
-#: templates/dairyapp/member_milkrecord_list.html:7
+#: templates/dairyapp/member_milkrecord_list.html:22
+#: templates/user/member_milkrecord_list.html:22
 msgid "Filter"
 msgstr "फिल्टर"
 
-#: templates/dairyapp/member_milkrecord_list.html:9
-#: templates/dairyapp/milkrecord_list.html:16
-msgid "Date"
-msgstr "मिति"
-
-#: templates/dairyapp/member_milkrecord_list.html:10
+#: templates/dairyapp/member_milkrecord_list.html:25
+#: templates/user/member_milkrecord_list.html:25
 msgid "Start Date"
 msgstr "सुरू मिति"
 
-#: templates/dairyapp/member_milkrecord_list.html:11
+#: templates/dairyapp/member_milkrecord_list.html:26
+#: templates/user/member_milkrecord_list.html:26
 msgid "End Date"
 msgstr "अन्त्य मिति"
 
-#: templates/dairyapp/member_milkrecord_list.html:12
+#: templates/dairyapp/member_milkrecord_list.html:27
+#: templates/user/member_milkrecord_list.html:27
 msgid "Shift:select"
 msgstr "शिफ्ट"
 
-#: templates/dairyapp/member_milkrecord_list.html:90
-msgid "Details"
-msgstr "विवरणहरू"
+#: templates/dairyapp/member_milkrecord_list.html:34
+#: templates/dairyapp/member_milkrecord_list.html:41
+#: templates/user/member_milkrecord_list.html:34
+#: templates/user/member_milkrecord_list.html:41
+msgid "morning"
+msgstr ""
 
-#: templates/dairyapp/milkrecord_create.html:23
-#: templates/dairyapp/milkrecord_edit.html:20
+#: templates/dairyapp/member_milkrecord_list.html:52
+#: templates/dairyapp/member_milkrecord_list.html:59
+#: templates/user/member_milkrecord_list.html:52
+#: templates/user/member_milkrecord_list.html:59
+msgid "night"
+msgstr ""
+
+#: templates/dairyapp/milkrecord_create.html:25
 msgid "Create Milk Record"
+msgstr "दूध रेकर्ड बनाउनुहोस्"
+
+#: templates/dairyapp/milkrecord_create.html:32
+#, python-format
+msgid ""
+"\n"
+"                                    %(lable)s\n"
+"                                "
+msgstr ""
+
+#: templates/dairyapp/milkrecord_edit.html:20
+msgid "Update Milk Record"
 msgstr "दूध रेकर्ड बनाउनुहोस्"
 
 #: templates/dairyapp/milkrecord_list.html:3
 msgid "List Milk Record"
 msgstr "दूध रेकर्ड सूची"
-
-#: templates/dairyapp/milkrecord_list.html:13
-msgid "Shift"
-msgstr "शिफ्ट"
-
-#: templates/dairyapp/milkrecord_list.html:14
-msgid "Milk Weight"
-msgstr "दूधको वजन"
-
-#: templates/dairyapp/milkrecord_list.html:15
-msgid "Milk Fat"
-msgstr "दूधको फ्याट"

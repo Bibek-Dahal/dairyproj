@@ -1,13 +1,14 @@
-import datetime
-from dairyapp.models import MilkRecord
+
+from dairyapp.models import FatRate, MilkRecord
 import pytz
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives,get_connection
 from django.core import mail
+from datetime import datetime,date
 def getShift():
     desired_timezone = pytz.timezone('Asia/Kathmandu')
-    current_time = datetime.datetime.now(desired_timezone)
+    current_time = datetime.now(desired_timezone)
     print(current_time)
 
 
@@ -45,4 +46,18 @@ def sendMial(subject,to,from_email,filename,message=None,pdf=None):
         msg.attach_alternative(html_content, "text/html")
        
         msg.send(fail_silently=False)
+
+def getFatBasedOnDate(start_date,end_date):
+    objs = FatRate.objects.all().order_by('-created_at')
+    start_date_date = datetime.strptime(start_date, '%Y-%m-%d').date() 
+    
+    print("inside while")
+    if start_date_date >= objs.first().created_at.date():
+        return objs.first()
+        
+        
+    return None
+        
+    
+
         

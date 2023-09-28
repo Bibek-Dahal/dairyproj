@@ -11,7 +11,7 @@ class Dairy(models.Model):
     is_verified = models.BooleanField(_("verified"),default=False)
     created_at = models.DateTimeField(_("created at"),auto_now_add=True)
     updated_at = models.DateTimeField(_("updated at"),auto_now=True)
-    members = models.ManyToManyField(User,verbose_name=_("dairy"),null=True,blank=True)
+    members = models.ManyToManyField(User,verbose_name=_("members"),null=True,blank=True)
 
     objects = models.Manager()
     verObs = DairyModelManager()
@@ -29,7 +29,7 @@ class Dairy(models.Model):
 
 class FatRate(models.Model):
     fat_rate = models.FloatField(_("fat rate"),max_length=5)
-    dairy = models.OneToOneField(Dairy,on_delete=models.CASCADE,verbose_name=_("dairy"))
+    dairy = models.ForeignKey(Dairy,on_delete=models.CASCADE,verbose_name=_("dairy"))
     bonous_amount = models.PositiveSmallIntegerField("Bonous amount",default=0)
     created_at = models.DateTimeField(_("created at"),auto_now_add=True)
     updated_at = models.DateTimeField(_("updated at"),auto_now=True)
@@ -59,3 +59,24 @@ class MilkRecord(models.Model):
         unique_together = ["dairy", "user","shift","date"]
 
 
+class MilkReportEmailHistory(models.Model):
+    shift_choices = (
+        ("morning","morning"),
+        ("night","night")
+    )
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    dairy = models.ForeignKey(Dairy,on_delete=models.CASCADE,verbose_name=_("dairy"))
+    shift = models.CharField(_("shift"),max_length=10,choices=shift_choices)
+    fat_rate = models.FloatField(_("fat rate"),max_length=5)
+    bonous_amount = models.PositiveSmallIntegerField("Bonous amount",default=0)
+    start_date = models.DateField(_("Start date"))
+    end_date = models.DateField(_("End date"))
+    milk_weight = models.FloatField(_("milk weight"))
+    avg_fat = models.FloatField(_("Avg fat"))
+    total_amount = models.FloatField(_("Total amount"))
+    created_at = models.DateTimeField(_("created at"),auto_now_add=True)
+    updated_at = models.DateTimeField(_("updated at"),auto_now=True)
+
+    @property
+    def get_fat_rate(self):
+        return self.fat_rate + self.bonous_amount

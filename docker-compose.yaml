@@ -13,6 +13,7 @@ services:
       - "8000:8000"
     depends_on:
       - db   
+      - redis
   db:
     image: mysql
     container_name: mysql
@@ -20,6 +21,20 @@ services:
       - ./db_config.env
     volumes:
       - mysqldata:/var/lib/mysql
+  redis:
+    image: redis
+    expose:
+      - 6379
+    command: [ "redis-server"]
+  celery:
+    build: .
+    depends_on:
+      - redis
+      - web
+    env_file:
+      - ./.env.dev
+    restart: unless-stopped
+    command: celery -A dairy worker -l INFO
     
 
 volumes:

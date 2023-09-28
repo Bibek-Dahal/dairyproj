@@ -51,7 +51,10 @@ class MyPasswordResetFrom(ResetPasswordForm):
 class MyPasswordChangeForm(ChangePasswordForm):
     def __init__(self, *args, **kwargs):
         super(MyPasswordChangeForm, self).__init__(*args, **kwargs)
-        
+        self.fields['oldpassword'].widget.label = _("Current Password")
+        self.fields['password1'].widget.label = _("New Password")
+        self.fields['password2'].widget.label = _("New Password (again)")
+
         self.fields['oldpassword'].widget.attrs.update({'class':'form-control'})
         self.fields['password1'].widget.attrs.update({'class':'form-control'})
         self.fields['password2'].widget.attrs.update({'class':'form-control'})
@@ -83,10 +86,10 @@ class MyUserCreationForm(SignupForm):
     #         }
     #     )
     # )
-    first_name = CharField(max_length=20,min_length=2,widget=forms.TextInput(attrs={'class':'form-control','placeholder':_("first name")}))
-    middle_name = CharField(required=False,max_length=20,min_length=2,widget=forms.TextInput(attrs={'class':'form-control','placeholder':_("middle name")}))
-    last_name = CharField(label=_("Last name"),max_length=20,min_length=2,widget=forms.TextInput(attrs={'class':'form-control','placeholder':_("last name")}))
-    phone_number = CharField(widget=forms.NumberInput(attrs={'class':'form-control','maxlength':10,'minlength':10}))
+    first_name = CharField(label=_("First name"),max_length=20,min_length=2,widget=forms.TextInput(attrs={'class':'form-control','placeholder':_("First name")}))
+    middle_name = CharField(label=_("Middle name"),required=False,max_length=20,min_length=2,widget=forms.TextInput(attrs={'class':'form-control','placeholder':_("Middle name")}))
+    last_name = CharField(label=_("Last name"),max_length=20,min_length=2,widget=forms.TextInput(attrs={'class':'form-control','placeholder':_("Last name")}))
+    phone_number = CharField(label=_("Phone number"),widget=forms.NumberInput(attrs={'class':'form-control','maxlength':10,'minlength':10,'placeholder':_("Phone number")}))
     field_order = ["email","phone_number","first_name","middle_name","last_name","password1","password2"]
     
     """A form for creating new users. Includes all the required

@@ -82,14 +82,14 @@ class MyUserManager(BaseUserManager):
         return user
 
 class User(AbstractBaseUser,PermissionsMixin):
-    first_name = models.CharField(_("first name"),max_length=40)
-    middle_name = models.CharField(_("middle name"),max_length=40,blank=True,null=True)
-    last_name = models.CharField(_("last name"),max_length=40)
-    email = models.EmailField(_("email"),max_length=200,unique=True,blank=True,null=True)
-    phone_number = models.BigIntegerField(_("phone number"),unique=True)
-    is_email_verified = models.BooleanField(_("email verified"),default=False)
-    address = models.CharField(_("address"),max_length=100,blank=True,null=True)
-    has_verified_dairy = models.BooleanField(_("has verified dairy"),default=False)
+    first_name = models.CharField(_("First name"),max_length=40)
+    middle_name = models.CharField(_("Middle name"),max_length=40,blank=True,null=True)
+    last_name = models.CharField(_("Last name"),max_length=40)
+    email = models.EmailField(_("Email"),max_length=200,unique=True,blank=True,null=True)
+    phone_number = models.BigIntegerField(_("Phone number"),unique=True)
+    is_email_verified = models.BooleanField(_("Email verified"),default=False)
+    address = models.CharField(_("Address"),max_length=100,blank=True,null=True)
+    has_verified_dairy = models.BooleanField(_("Has verified dairy"),default=False)
     is_staff = models.BooleanField(
         _("staff status"),
         default=False,

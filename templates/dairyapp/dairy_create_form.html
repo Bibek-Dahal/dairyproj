@@ -2,6 +2,10 @@
 {% load static%}
 {% load i18n %}
 {%block title%}{%trans 'Create Dairy' %}{%endblock title%}
+{%block additionalcss%}
+    
+{%endblock%}
+
 
 {%block content%}
 
@@ -58,6 +62,31 @@
                     <input value="http://merchant.com.np/page/esewa_payment_failed?q=fu" type="hidden" name="fu">
                     <input class="btn btn-primary" value="{% trans 'Pay with esewa' %}" type="submit">
                 </form>
+
+                <br/>
+                <br/>
+                <form action="{% url 'dairyapp:initiate'%}" method="POST">
+                    {%csrf_token%}
+                    <input type="hidden"  name="purchase_order_id" value="{{uid}}">
+                    <input type="hidden" name="amount" value="1000"  id="">
+                    <input type="hidden" name="return_url" value="http://127.0.0.1:8000/dashboard/verify">
+                    <input type="submit" class="btn btn-danger" value="pay with khalti">
+                </form>
+
+
+
+
+
+
+
+
+                <!-- <form action="{% url 'dairyapp:initiate' %}" method="POST">
+                    {%csrf_token%}
+                    <input type="hidden" name="purchase_order_id" value="{{uid}}" id="pid">
+                    <input type="hidden" name="amount" value="1000" id="amt">
+                    <input type="hidden" name="return_url"  value="http://127.0.0.1:8000/dashboard/verify">
+                    <input type="submit" class="btn btn-danger" id="khaltibtn" value="pay with khalti   " name="" id="">
+                </form> -->
             </body>
             {%endif%}
 

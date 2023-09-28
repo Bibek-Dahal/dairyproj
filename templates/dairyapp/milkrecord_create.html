@@ -5,7 +5,7 @@
 
 
 {%block content%}
-<!-- <script src="https://cdn.jsdelivr.net/npm/nepali-date-converter/dist/nepali-date-converter.umd.js"></script> -->
+<script src="{% static 'js/nepali-date-picker.min.js'%}"></script>
 
 <div class="container mt-5">
 
@@ -54,15 +54,15 @@
             </form>
         </div>
     </div>
-    <script src="{% static 'js/nepali-date-picker.min.js'%}"></script>
+    
 
     <script>
-        /*$(document).ready(function () {
+        $(document).ready(function () {
             //$('.id_user').select2();
             //$('.id_dairy').select2();
 
             // Find the input element with the specified ID
-            var $oldInput = $("#id_date");
+            var $oldInput = $(".date-picker");
 
             // Create a new input element with the desired type
             var $newInput = $("<input>").attr({
@@ -77,9 +77,9 @@
 
             // Replace the old input element with the new one
             $oldInput.replaceWith($newInput);
-            $('#id_date').nepaliDatePicker();
+            $('.date-picker').nepaliDatePicker();
         });
-        */
+        
 
 
 
