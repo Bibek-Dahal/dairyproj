@@ -26,7 +26,7 @@
         <h1>total fat rate:{{total_fat_rate}}</h1>
     {%endif%}
     <p>{%trans 'Filter' %}</p>
-    Date:{{date}}
+    
     <script src="{% static 'js/nepali-date-picker.min.js'%}"></script>
     <p>{%trans 'Date' %}:<input type="date" data-single="true" class="date-picker"  id="date" {%if date %} value="{{date}}" {%endif%}></p>
     <p>{%trans 'Start Date' %}:<input type="date" data-single="true" id="start_date" name="start-date" class="date-picker" {%if start_date %} value="{{start_date}}" {%endif%}></p>
