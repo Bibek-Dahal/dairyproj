@@ -407,10 +407,10 @@ class ListMemberMilkRecord(ListView):
                 print("inside milk record")
                 import random
                 i = 1
-                for i in range(10,30):
+                for i in range(1,28):
                     date = f"2023-09-{i}"
                     if i<9:
-                        date = f"2023-07-0{i}"
+                        date = f"2023-09-0{i}"
                     MilkRecord.objects.create(
                         dairy = dairy,
                         user = user,
@@ -688,11 +688,14 @@ class SendMilkReportEmialView(View):
                 'avg_fat': round(avg_fat,3),
                 'fat_rate':round(fat_rate,3),
                 'total_price':round(total_price,3),
+                'bonus':fat_rate_obj.bonous_amount,
+
 
                 'ntotal_milk_wieght':nmilk_wg,
                 'navg_fat': round(navg_fat,3),
                 'nfat_rate':round(nfat_rate,3),
                 'ntotal_price':round(ntotal_price,3),
+                'dairy':dairy,
 
 
                 'user':user,
