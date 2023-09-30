@@ -1,4 +1,5 @@
 import io
+from typing import Any
 from django.db.models.query import QuerySet
 from django.shortcuts import render,redirect
 from django.urls import reverse, reverse_lazy
@@ -56,6 +57,7 @@ class HomeView(View):
 
             context = {
                 'dairies':dairies,
+                'name':'Dashboard'
                 # "milk_records":milk_records,
                 # 'fat_rates':fat_rates
             }
@@ -74,6 +76,11 @@ class FatListView(ListView):
     paginate_by = 100
     template_name = "fatrate_list"
     context_object_name = "fatrates"
+
+    def get_context_data(self, **kwargs) :
+        context =  super().get_context_data(**kwargs)
+        context['name'] = 'Fat Rates'
+        return context
 
     def get_queryset(self):
         qs = super().get_queryset().filter(dairy__user = self.request.user)
@@ -688,11 +695,13 @@ class SendMilkReportEmialView(View):
                 'avg_fat': round(avg_fat,3),
                 'fat_rate':round(fat_rate,3),
                 'total_price':round(total_price,3),
+                'bonus_amt':fat_rate_obj.bonous_amount,
 
                 'ntotal_milk_wieght':nmilk_wg,
                 'navg_fat': round(navg_fat,3),
                 'nfat_rate':round(nfat_rate,3),
                 'ntotal_price':round(ntotal_price,3),
+                'dairy':dairy,
 
 
                 'user':user,

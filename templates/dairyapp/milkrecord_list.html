@@ -2,6 +2,13 @@
 {% load i18n %}
 {%block title%}{%trans 'List Milk Record' %}{%endblock title%}
 {%block table_data%}
+{%block additionalcss%}
+    <style>
+        a{
+        text-decoration: none;
+    }
+    </style>
+{%endblock%}
 <table class="table">
 
     <a class="float-end nav-link " href="{%url  'dairyapp:create_milk_record' dairy=dairy id=user.id %}">Add Milk Record</a>
