@@ -695,12 +695,8 @@ class SendMilkReportEmialView(View):
                 'avg_fat': round(avg_fat,3),
                 'fat_rate':round(fat_rate,3),
                 'total_price':round(total_price,3),
-<<<<<<< HEAD
-                'bonus_amt':fat_rate_obj.bonous_amount,
-=======
                 'bonus':fat_rate_obj.bonous_amount,
 
->>>>>>> ram
 
                 'ntotal_milk_wieght':nmilk_wg,
                 'navg_fat': round(navg_fat,3),
