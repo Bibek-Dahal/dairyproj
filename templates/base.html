@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{%static 'css/bootstrap.min.css'%}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{%static 'css/nepali-date-picker.min.css'%}">
+    <link rel="stylesheet" href="{%static 'css/base.css'%}">
     
     <script src="{%static 'js/bootstrap.min.js'%}"></script>
     <script src="{%static 'js/fontawesome.min.js'%}"></script>
@@ -17,14 +18,11 @@
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    
-    
-
-    {%block additionalcss%}{%endblock%}
+    {%block additionalcss%}
+    <link rel="stylesheet" href="{%static 'css/CustomCSS/navbar.css'%}"> 
+    {%endblock%}
     {%block additionaljs%} {%endblock%}
-    
 </head>
-
 
 <body>
     {%block navbar%}
