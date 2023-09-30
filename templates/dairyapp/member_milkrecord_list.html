@@ -28,6 +28,7 @@
     <p>{%trans 'Filter' %}</p>
     
     <script src="{% static 'js/nepali-date-picker.min.js'%}"></script>
+
     <p>{%trans 'Date' %}:<input type="date" data-single="true" class="date-picker"  id="date" {%if date %} value="{{date}}" {%endif%}></p>
     <p>{%trans 'Start Date' %}:<input type="date" data-single="true" id="start_date" name="start-date" class="date-picker" {%if start_date %} value="{{start_date}}" {%endif%}></p>
     <p>{%trans 'End Date' %}:<input type="date" data-single="true" id="end_date" data-single="true" name="end-date" class="date-picker" {%if end_date %} value="{{end_date}}" {%endif%}></p>
